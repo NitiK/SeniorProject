@@ -15,8 +15,8 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void ResetPosition() {
-		this.transform.position= new Vector3(0.0f,0.2f,-1.52f);
-		this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f,0.0f);
+		this.transform.position= new Vector3(20.6f,8f,20f);
+		this.transform.rotation = new Quaternion(0.0f, -180f, 0.0f,0.0f);
 
 	}
 }
