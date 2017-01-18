@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+	public GameObject wall1;
+	public GameObject wall2;
+	public GameObject wall3;
+	public GameObject wall4;
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+
+
+	void FixedUpdate()
+	{
+		RaycastHit hit;
+
+		if (Physics.Raycast(transform.position, transform.forward, out hit))
+			print("Found an object - distance: " + hit.distance);
 	}
 
 	public void ResetPosition() {
-		this.transform.position= new Vector3(0.0f,0.2f,-1.52f);
-		this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f,0.0f);
+		this.transform.position= new Vector3(20.6f,8f,20f);
+		this.transform.rotation = new Quaternion(0.0f, -180f, 0.0f,0.0f);
 
 	}
 }
