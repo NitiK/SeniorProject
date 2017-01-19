@@ -25,6 +25,7 @@ public class Orientation
 	public float y;
 	public float x;
 	public float z;
+	public float w;
 }
 
 [System.Serializable]
