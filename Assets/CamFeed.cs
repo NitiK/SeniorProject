@@ -62,7 +62,7 @@ public class CamFeed : MonoBehaviour {
 				string returnData = Encoding.ASCII.GetString(receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson>(returnData);
 				transform.position = new Vector3(temp.pose.position.x,temp.pose.position.y,temp.pose.position.z);
-				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
+//				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
 
 				// EndReceive worked and we have received data and remote endpoint
 			}
