@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class Gyro : MonoBehaviour {
 	Gyroscope temp;
-	public GameObject textbox;
-	public GameObject textbox2;
+	public GameObject textX;
+	public GameObject textY;
+	public GameObject textZ;
 	float x,y,z;
 	// Use this for initialization
 	void Start () {
@@ -24,9 +25,10 @@ public class Gyro : MonoBehaviour {
 		transform.localRotation = Quaternion.Euler (x,y,z);
 
 //		transform.rotation = Quaternion.Euler((temp.attitude.eulerAngles.y)*-1+90f,temp.attitude.eulerAngles.x,(temp.attitude.eulerAngles.z-90f));
-		string printt = "x = "+x+", y = "+y+", z = "+z;
-		textbox.GetComponent<Text>().text = printt;
-		textbox2.GetComponent<Text> ().text = transform.position.ToString();
+//		string printt = "x = "+x+", y = "+y+", z = "+z;
+		textX.GetComponent<Text>().text = "X = "+transform.position.x;
+		textY.GetComponent<Text>().text = "Y = "+transform.position.y;
+		textZ.GetComponent<Text>().text = "Z = "+transform.position.z;
 	}
 }
 

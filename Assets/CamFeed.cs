@@ -51,7 +51,7 @@ public class CamFeed : MonoBehaviour {
 //        Byte[] sendBytes = tx2d.EncodeToJPG(40);
 //        udpClient.Send(sendBytes, sendBytes.Length);
 		IAsyncResult asyncResult = udpClient.BeginReceive( null, null );
-		asyncResult.AsyncWaitHandle.WaitOne( TimeSpan.FromSeconds(0.3));
+		asyncResult.AsyncWaitHandle.WaitOne( TimeSpan.FromSeconds(0.1));
 		if (asyncResult.IsCompleted)
 		{
 			Debug.Log("Received!!");
@@ -61,7 +61,7 @@ public class CamFeed : MonoBehaviour {
 				byte[] receivedData = udpClient.EndReceive( asyncResult, ref remoteEP );
 				string returnData = Encoding.ASCII.GetString(receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson>(returnData);
-				transform.position = new Vector3(temp.pose.position.x,temp.pose.position.y,temp.pose.position.z);
+				transform.parent.transform.position = new Vector3(temp.pose.position.x,temp.pose.position.y,temp.pose.position.z);
 //				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
 
 				// EndReceive worked and we have received data and remote endpoint
