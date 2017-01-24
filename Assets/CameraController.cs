@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-	public GameObject wall1;
-	public GameObject wall2;
-	public GameObject wall3;
-	public GameObject wall4;
+	public GameObject prefab;
 	// Use this for initialization
 	void Start () {
 	}
@@ -20,11 +17,19 @@ public class CameraController : MonoBehaviour {
 
 		if (Physics.Raycast(transform.position, transform.forward, out hit))
 			print("Found an object - distance: " + hit.distance);
+
+		if (Input.GetMouseButtonDown (0)) {
+			AddBox ();
+		}
 	}
 
 	public void ResetPosition() {
 		this.transform.position= new Vector3(20.6f,8f,20f);
 		this.transform.rotation = new Quaternion(0.0f, -180f, 0.0f,0.0f);
 
+	}
+
+	public void AddBox(){
+		Instantiate(prefab, transform.forward, Quaternion.identity);
 	}
 }
