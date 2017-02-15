@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Gyro : MonoBehaviour {
+	public GameObject worldCam;
 	Gyroscope temp;
 	public GameObject textX;
 	public GameObject textY;
@@ -23,6 +24,7 @@ public class Gyro : MonoBehaviour {
 		y = temp2.eulerAngles.y;
 		z = temp2.eulerAngles.z;
 		transform.localRotation = Quaternion.Euler (x,y,z);
+		worldCam.transform.localRotation = Quaternion.Euler (x,y,z);
 
 //		transform.rotation = Quaternion.Euler((temp.attitude.eulerAngles.y)*-1+90f,temp.attitude.eulerAngles.x,(temp.attitude.eulerAngles.z-90f));
 //		string printt = "x = "+x+", y = "+y+", z = "+z;

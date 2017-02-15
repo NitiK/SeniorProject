@@ -24,6 +24,6 @@ public class CameraController : MonoBehaviour {
 
 	}
 	public void ResetMapRotiation(){
-		map.transform.RotateAround (transform.position, Vector3.up, transform.eulerAngles.y - map.transform.eulerAngles.y );
+		map.transform.RotateAround (transform.position, Vector3.up, (transform.eulerAngles.y - map.transform.eulerAngles.y)-90f );
 	}
 }
