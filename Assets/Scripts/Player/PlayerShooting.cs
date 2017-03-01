@@ -6,6 +6,10 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 
+	GameObject myweapon;
+	bool weaponArea;
+	GameObject weapon;
+	GameObject activeWeapon;
 
     float timer;
     Ray shootRay = new Ray();
@@ -25,6 +29,9 @@ public class PlayerShooting : MonoBehaviour
         gunLine = GetComponent <LineRenderer> ();
         gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
+
+		this.weaponArea = false;
+		setMyweapon ();
     }
 
 
@@ -36,6 +43,25 @@ public class PlayerShooting : MonoBehaviour
         {
             Shoot ();
         }
+
+		if (Input.GetKeyDown ("e")) {
+			//print (this.weaponArea);
+			if (this.weaponArea) {
+				print ("Good");
+
+				this.activeWeapon.SetActive (false);
+				this.weapon.transform.position = this.activeWeapon.transform.position;
+				this.weapon.transform.rotation = this.activeWeapon.transform.rotation;
+				this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
+				Destroy (this.weapon.transform.GetComponent<Rigidbody>());
+				Destroy (this.weapon.transform.GetComponent<BoxCollider>());
+				Destroy (this.weapon.transform.GetComponent<SphereCollider>());
+				this.weapon.transform.parent = this.transform;
+				Destroy (this.activeWeapon.transform.gameObject);
+				this.weaponArea = false;
+				setMyweapon ();
+			}
+		}
 
 		/*if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
@@ -55,6 +81,26 @@ public class PlayerShooting : MonoBehaviour
         gunLight.enabled = false;
     }
 
+	void setMyweapon(){
+		foreach (Transform t in transform)
+		{
+			if(t.tag == "Weapon")// Do something to child one
+			{
+				this.activeWeapon = t.gameObject;
+				foreach (Transform tchild in t)
+				{
+					if(tchild.tag == "Weapon_Top")// Do something to child one
+					{
+						this.myweapon = tchild.gameObject;
+						//print (this.myweapon.name);
+					}
+
+				}
+			}
+
+		}
+	}
+
 
     void Shoot ()
     {
@@ -69,7 +115,7 @@ public class PlayerShooting : MonoBehaviour
         gunParticles.Play ();*/
 
         gunLine.enabled = true;
-		gunLine.SetPosition (0, new Vector3(transform.position.x,transform.position.y-2f,transform.position.z));
+		gunLine.SetPosition (0, new Vector3(myweapon.transform.position.x,myweapon.transform.position.y,myweapon.transform.position.z));
 
         shootRay.origin = transform.position;
 		shootRay.direction = transform.forward;
@@ -91,4 +137,21 @@ public class PlayerShooting : MonoBehaviour
             gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
         }
     }
+
+	void OnTriggerEnter(Collider other) {
+		//Destroy(other.gameObject);
+		print(other.gameObject.tag);
+		if (other.gameObject.tag == "Weapon") {
+			this.weaponArea = true;
+			this.weapon = other.gameObject;
+		} 
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.tag == "Weapon")
+		{
+			this.weaponArea = false;
+		}
+	}
 }
