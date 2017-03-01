@@ -128,7 +128,7 @@ public class PlayerShooting : MonoBehaviour
         if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
         {
 			Debug.Log (shootHit.collider.name + " : "+shootHit.distance);
-			shootHit.collider.transform.localScale = shootHit.collider.transform.localScale * 0.9f;
+			this.activeWeapon.GetComponent<Weapon>().Hit(shootHit.collider.gameObject);
             /*EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
             if(enemyHealth != null)
             {
