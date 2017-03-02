@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
     public int damagePerShot = 20;
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
+	public Text pickButtonText;
 
 	GameObject myweapon;
 	bool weaponArea;
@@ -46,21 +48,7 @@ public class PlayerShooting : MonoBehaviour
 
 		if (Input.GetKeyDown ("e")) {
 			//print (this.weaponArea);
-			if (this.weaponArea) {
-				print ("Good");
-
-				this.activeWeapon.SetActive (false);
-				this.weapon.transform.position = this.activeWeapon.transform.position;
-				this.weapon.transform.rotation = this.activeWeapon.transform.rotation;
-				this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
-				Destroy (this.weapon.transform.GetComponent<Rigidbody>());
-				Destroy (this.weapon.transform.GetComponent<BoxCollider>());
-				Destroy (this.weapon.transform.GetComponent<SphereCollider>());
-				this.weapon.transform.parent = this.transform;
-				Destroy (this.activeWeapon.transform.gameObject);
-				this.weaponArea = false;
-				setMyweapon ();
-			}
+			pickWeapon();
 		}
 
 		/*if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && timer >= timeBetweenBullets && Time.timeScale != 0)
@@ -98,6 +86,23 @@ public class PlayerShooting : MonoBehaviour
 				}
 			}
 
+		}
+	}
+
+	public void pickWeapon(){
+		if (this.weaponArea) {
+			//print ("Good");
+			this.activeWeapon.SetActive (false);
+			this.weapon.transform.position = this.activeWeapon.transform.position;
+			this.weapon.transform.rotation = this.activeWeapon.transform.rotation;
+			this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
+			Destroy (this.weapon.transform.GetComponent<Rigidbody>());
+			Destroy (this.weapon.transform.GetComponent<BoxCollider>());
+			Destroy (this.weapon.transform.GetComponent<SphereCollider>());
+			this.weapon.transform.parent = this.transform;
+			Destroy (this.activeWeapon.transform.gameObject);
+			this.weaponArea = false;
+			setMyweapon ();
 		}
 	}
 
@@ -144,6 +149,7 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon") {
 			this.weaponArea = true;
 			this.weapon = other.gameObject;
+			this.pickButtonText.text = "Weapon";
 		} 
 	}
 
@@ -152,6 +158,7 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon")
 		{
 			this.weaponArea = false;
+			this.pickButtonText.text = "Plane";
 		}
 	}
 }
