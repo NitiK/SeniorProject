@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fa7f046ce321d4021b5e753bf1152916
+guid: fa167235522489048aded3eb18508b0a
 AudioImporter:
   serializedVersion: 6
   defaultSettings:
@@ -7,12 +7,14 @@ AudioImporter:
     sampleRateSetting: 0
     sampleRateOverride: 0
     compressionFormat: 0
-    quality: .5
+    quality: 0.5
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
   3D: 0
   userData: 
   assetBundleName: 
+  assetBundleVariant: 
