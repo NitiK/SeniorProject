@@ -15,7 +15,11 @@ public class EditorManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Ray ray =Camera.main.ScreenPointToRay(Input.mousePosition);
+		/*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		print (Input.mousePosition);*/
+		Ray ray = new Ray ();
+		ray.origin = transform.position;
+		ray.direction = transform.forward;
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, 100, LayerMask.NameToLayer ("Terrain"))) {
 			//Debug.Log (hit.GetType ());
