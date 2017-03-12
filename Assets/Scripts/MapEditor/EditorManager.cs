@@ -42,16 +42,17 @@ public class EditorManager : MonoBehaviour {
 		if (P1 == empty) {
 			//P1 = transform.position + transform.forward*2;
 			P1 = point;
-			sphere = GameObject.Instantiate (Sphere, P1, Sphere.transform.rotation);
+			sphere = GameObject.Instantiate (Sphere, P1, Quaternion.identity);
 		} else if (P2 == empty) {
 			//P2 = transform.position + transform.forward*2;
 			P2 = point;
 			P2 = new Vector3 (P2.x,P1.y,P2.z);
-			Destroy (sphere);
+			Destroy (sphere.gameObject);
 			placeCube (P1,P2);
 		} else {
 			//P1 = transform.position + transform.forward*2;
 			P1 = point;
+			sphere = GameObject.Instantiate (Sphere, P1, Quaternion.identity);
 			P2 = empty;
 		}
 	}
