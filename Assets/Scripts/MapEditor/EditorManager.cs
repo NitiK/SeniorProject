@@ -69,6 +69,7 @@ public class EditorManager : MonoBehaviour {
 		cube.transform.position = point1 + (Between / 2.0f);
 		cube.transform.LookAt(point2);
 		cube.transform.position = new Vector3 (cube.transform.position.x,2.5f,cube.transform.position.z);
+		cube.GetComponent<CubeInfo> ().Init (point1,point2);
 		lastPlace = cube;
 	}
 	public void IncScale(){
