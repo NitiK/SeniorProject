@@ -8,15 +8,10 @@ using System.IO;
 
 public class SaveObjects : MonoBehaviour {
 	public GameObject Cube;
-	public string fileName = "QuickSave";
+	public string fileName = "QuickSave.xml";
 
 	public void Save(){
-		if (File.Exists(fileName))
-		{
-			Debug.Log(fileName+" already exists.");
-			return;
-		}
-		var sr = File.CreateText(fileName);
+		var sr = File.CreateText(Application.persistentDataPath + "/" + fileName);
 		foreach(CubeInfo a in GetComponentsInChildren<CubeInfo>()){
 			sr.WriteLine (a.GetInfo());
 		}
@@ -27,7 +22,7 @@ public class SaveObjects : MonoBehaviour {
 		try
 		{
 			string line;
-			StreamReader theReader = new StreamReader(fileName, Encoding.Default);
+			StreamReader theReader = new StreamReader(Application.persistentDataPath + "/" + fileName, Encoding.Default);
 			using (theReader)
 			{
 				do
