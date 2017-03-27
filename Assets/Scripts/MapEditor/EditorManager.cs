@@ -8,6 +8,7 @@ public class EditorManager : MonoBehaviour {
 	Vector3 P1,P2,empty;
 	GameObject lastPlace,Collection,sphere,selected;
 	bool foundObject;
+	RaycastHit hit;
 	// Use this for initialization
 	void Start () {
 		Collection = GameObject.Find ("Collection");
@@ -20,7 +21,6 @@ public class EditorManager : MonoBehaviour {
 		Ray ray = new Ray ();
 		ray.origin = transform.position;
 		ray.direction = transform.forward;
-		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, 100, LayerMask.NameToLayer ("Terrain"))) {
 			//Debug.Log (hit.GetType ());
 			foundObject = true;
@@ -28,16 +28,16 @@ public class EditorManager : MonoBehaviour {
 			foundObject = false;
 		}
 
-		if (Input.GetMouseButtonDown (0)) {
-			Press (hit.point);
-		}
-		if (Input.GetMouseButtonDown (1)) {
-			if (foundObject) {
-				Select (hit);
-				DestroySelected ();
-			}
-
-		}
+//		if (Input.GetTouch(0).phase == TouchPhase.Began) {
+//			Press (hit.point);
+//		}
+//		if (Input.GetMouseButtonDown (1)) {
+//			if (foundObject) {
+//				Select (hit);
+//				DestroySelected ();
+//			}
+//
+//		}
 			
 	}
 
@@ -88,5 +88,14 @@ public class EditorManager : MonoBehaviour {
 	}
 	public void DestroySelected(){
 		Destroy (selected);
+	}
+	public void Place(){
+		Press (hit.point);
+	}
+	public void Delete(){
+		if (foundObject) {
+			Select (hit);
+			DestroySelected ();
+		}
 	}
 }
