@@ -67,15 +67,15 @@ public class SaveObjects : MonoBehaviour {
 		cube.GetComponent<CubeInfo> ().Init (p1,p2);
 	}
 	void LateUpdate () {
-//		if (Input.GetKeyDown (KeyCode.F5)) 
-//		{   
-//			Save();   
-//		} 
-////		float num = System.Convert.ToSingle ("-3.652168E-16");
-////		Debug.Log (num);
-//		if (Input.GetKeyDown (KeyCode.F9)) 
-//		{   
-//			Load();   
-//		}
+		if (Input.GetKeyDown (KeyCode.F5)) 
+		{   
+			Save();   
+		} 
+//		float num = System.Convert.ToSingle ("-3.652168E-16");
+//		Debug.Log (num);
+		if (Input.GetKeyDown (KeyCode.F9)) 
+		{   
+			Load();   
+		}
 	}
 }

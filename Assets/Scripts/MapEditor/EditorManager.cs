@@ -90,7 +90,7 @@ public class EditorManager : MonoBehaviour {
 		Destroy (selected);
 	}
 	public void Place(){
-		Press (hit.point);
+		Press (new Vector3(transform.position.x,0,transform.position.z));
 	}
 	public void Delete(){
 		if (foundObject) {

@@ -11,6 +11,7 @@ public class CameraDirection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		temp = Input.gyro;
+		temp.updateInterval = 0.01F;
 		temp.enabled = true;
 	}
 

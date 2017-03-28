@@ -31,7 +31,7 @@ public class CamFeed : MonoBehaviour {
         //tcpClient = new TcpClient(11000);
         try
         {
-            udpClient.Connect("158.108.39.195", 8080);
+            udpClient.Connect("192.168.0.111", 8080);
 
             //udpClient.Connect("192.168.1.118", 8080);
             //tcpClient.Connect("192.168.1.116", 11000);
