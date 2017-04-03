@@ -9,9 +9,12 @@ public class EditorManager : MonoBehaviour {
 	GameObject lastPlace,Collection,sphere,selected;
 	bool foundObject;
 	RaycastHit hit;
+	float nextStage;
+	float delay=1.0f;
 	// Use this for initialization
 	void Start () {
 		Collection = GameObject.Find ("Collection");
+		nextStage = Time.time + delay;
 	}
 	
 	// Update is called once per frame
@@ -38,6 +41,11 @@ public class EditorManager : MonoBehaviour {
 //			}
 //
 //		}
+		if (Time.time > nextStage) {
+			nextStage = Time.time + delay;
+			GameObject sphere = Instantiate (Sphere, transform.position, Quaternion.identity);
+			sphere.transform.parent = GameObject.Find ("Collection").transform;
+		}
 			
 	}
 
