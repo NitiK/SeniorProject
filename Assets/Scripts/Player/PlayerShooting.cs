@@ -41,20 +41,23 @@ public class PlayerShooting : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-        {
-            Shoot ();
-        }
+//		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+//        {
+//            Shoot ();
+//        }
 
 		if (Input.GetKeyDown ("e")) {
 			//print (this.weaponArea);
 			pickWeapon();
 		}
-
-		/*if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if (Input.touchCount > 0) {
+			Debug.Log ("Touch Pong!!");
+		}
+		if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
+			Debug.Log ("Shoot Pong!!");
 			Shoot ();
-		}*/
+		}
 
         if(timer >= timeBetweenBullets * effectsDisplayTime)
         {
