@@ -12,6 +12,7 @@ public class CamFeed : MonoBehaviour {
 
 	// Use this for initialization
 //    public GameObject output;
+	public Text Seq;
     private Texture2D tx2d;
 //	private WebCamTexture webCamTexture;
     private UdpClient udpClient;
@@ -61,6 +62,8 @@ public class CamFeed : MonoBehaviour {
 				byte[] receivedData = udpClient.EndReceive( asyncResult, ref remoteEP );
 				string returnData = Encoding.ASCII.GetString(receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson>(returnData);
+				Seq.text = temp.header.seq+"";
+				Debug.Log(temp.header.seq);
 				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
 //				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
 

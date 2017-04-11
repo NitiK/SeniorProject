@@ -50,12 +50,8 @@ public class PlayerShooting : MonoBehaviour
 			//print (this.weaponArea);
 			pickWeapon();
 		}
-		if (Input.touchCount > 0) {
-			Debug.Log ("Touch Pong!!");
-		}
 		if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
-			Debug.Log ("Shoot Pong!!");
 			Shoot ();
 		}
 
