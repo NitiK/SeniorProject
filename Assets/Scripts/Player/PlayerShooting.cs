@@ -7,6 +7,8 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 	public Text pickButtonText;
+	public Text bulletText;
+	public int bullet;
 
 	GameObject myweapon;
 	bool weaponArea;
@@ -41,19 +43,28 @@ public class PlayerShooting : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-//		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-//        {
-//            Shoot ();
-//        }
+		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+		{
+			if (this.bullet > 0) {
+				this.bullet -= 1;
+				this.bulletText.text = this.bullet + " / 10";
+				Shoot ();
+			}
+		}
 
 		if (Input.GetKeyDown ("e")) {
 			//print (this.weaponArea);
 			pickWeapon();
 		}
-		if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if (Input.GetKeyDown ("r")) {
+			//print (this.weaponArea);
+			this.bullet = 10;
+			this.bulletText.text = this.bullet + " / 10";
+		}
+		/*if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
 			Shoot ();
-		}
+		}*/
 
         if(timer >= timeBetweenBullets * effectsDisplayTime)
         {
