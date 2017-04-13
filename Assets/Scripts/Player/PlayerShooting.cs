@@ -43,14 +43,14 @@ public class PlayerShooting : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+		/*if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
 			if (this.bullet > 0) {
 				this.bullet -= 1;
 				this.bulletText.text = this.bullet + " / 10";
 				Shoot ();
 			}
-		}
+		}*/
 
 		if (Input.GetKeyDown ("e")) {
 			//print (this.weaponArea);
@@ -61,10 +61,14 @@ public class PlayerShooting : MonoBehaviour
 			this.bullet = 10;
 			this.bulletText.text = this.bullet + " / 10";
 		}
-		/*if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
-			Shoot ();
-		}*/
+			if (this.bullet > 0) {
+				this.bullet -= 1;
+				this.bulletText.text = this.bullet + " / 10";
+				Shoot ();
+			}
+		}
 
         if(timer >= timeBetweenBullets * effectsDisplayTime)
         {
@@ -97,6 +101,11 @@ public class PlayerShooting : MonoBehaviour
 			}
 
 		}
+	}
+
+	public void reBullet(){
+		this.bullet = 10;
+		this.bulletText.text = this.bullet + " / 10";
 	}
 
 	public void pickWeapon(){
