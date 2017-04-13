@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour {
 	public Transform player;
 	public NavMeshAgent agent;
 	public BarScript hpBar;
+	public MonsterCounter monKill;
 
 	// Use this for initialization
 	void Awake () {
@@ -36,6 +37,8 @@ public class Enemy : MonoBehaviour {
 		anime = GetComponent<Animator> ();
 		agent = GetComponent<NavMeshAgent> ();
 		state = portal;
+		monKill =  GameObject.FindGameObjectWithTag ("CanvasManager").GetComponent<MonsterCounter>();
+
 	}
 	
 	// Update is called once per frame
@@ -105,6 +108,7 @@ public class Enemy : MonoBehaviour {
 	}
 	void dead(){
 		isDead = true;
+		this.monKill.AddKillMonster (1);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
 	}
