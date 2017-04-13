@@ -4,20 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	bool weaponArea;
-	GameObject weapon;
-	GameObject activeWeapon;
+	private float playerHP;
 	// Use this for initialization
 	void Start () {
-		this.weaponArea = false;
-		foreach (Transform t in transform)
-		{
-			if(t.tag == "Myweapon")// Do something to child one
-			{
-				this.activeWeapon = t.gameObject;
-			}
-
-		}
+		this.playerHP = 1;
 	}
 	
 	// Update is called once per frame
@@ -28,39 +18,19 @@ public class PlayerController : MonoBehaviour {
 		if (Physics.Raycast(transform.position, transform.forward, out hit, 100.0f))
 			print("Found an object " + hit.collider.gameObject.name + " : " + hit.distance);*/
 
-		if (Input.GetKey ("e")) {
-			//print (this.weaponArea);
-			if (this.weaponArea) {
-				print ("Good");
-				this.activeWeapon.SetActive (false);
-				this.weapon.transform.position = this.activeWeapon.transform.position;
-				this.weapon.transform.rotation = this.activeWeapon.transform.rotation;
-				this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
-				Destroy (this.weapon.transform.GetComponent<Rigidbody>());
-				Destroy (this.weapon.transform.GetComponent<BoxCollider>());
-				Destroy (this.weapon.transform.GetComponent<SphereCollider>());
-				this.weapon.transform.parent = this.transform;
-				Destroy (this.activeWeapon);
-
-			}
-		}
+	
 			
 	}
 
-	void OnTriggerEnter(Collider other) {
-		//Destroy(other.gameObject);
-		print(other.gameObject.tag);
-		if (other.gameObject.tag == "weapon") {
-			this.weaponArea = true;
-			this.weapon = other.gameObject;
-		} 
+	public void takeDamage(float damage){
+		if (this.playerHP > 0) {
+			this.playerHP -= damage;
+		} else {
+			this.playerHP = 0;
+		}
 	}
 
-	void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.tag == "weapon")
-		{
-			this.weaponArea = false;
-		}
+	public float getHP(){
+		return this.playerHP;
 	}
 }

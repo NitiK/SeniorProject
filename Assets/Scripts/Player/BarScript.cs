@@ -23,4 +23,8 @@ public class BarScript : MonoBehaviour {
 	private void HandleBar(){
 		this.content.rectTransform.localScale = new Vector3 (this.fillAmount, 1, 1);
 	}
+
+	public void setFillAmount(float num){
+		this.fillAmount = num;
+	}
 }

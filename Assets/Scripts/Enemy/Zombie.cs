@@ -16,6 +16,7 @@ public class Zombie : Enemy {
 		wanderRadius = 1f;
 		detectRange = 20f;
 		attackInterval = 1.1f;
+		attackRange = 5f;
 		anime = GetComponent<Animator> ();
 		agent = GetComponent<NavMeshAgent> ();
 	}

@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour {
 
 	public Transform player;
 	public NavMeshAgent agent;
+	public BarScript hpBar;
 
 	// Use this for initialization
 	void Awake () {
@@ -123,5 +124,8 @@ public class Enemy : MonoBehaviour {
 	}
 	void applyDamage(){
 		//Damage to player
+		print("Damage to player");
+		this.player.GetComponent<PlayerController> ().takeDamage (0.1f);
+		this.hpBar.setFillAmount(this.player.GetComponent<PlayerController> ().getHP());
 	}
 }
