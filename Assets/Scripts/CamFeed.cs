@@ -18,6 +18,7 @@ public class CamFeed : MonoBehaviour {
     private UdpClient udpClient;
 //	private IPEndPoint RemoteIpEndPoint;
 //	private TcpClient tcpClient;
+	private IAsyncResult asyncResult;
 
 
 	void Start () {
@@ -41,6 +42,7 @@ public class CamFeed : MonoBehaviour {
         {
             Console.Write(e.ToString());
         }
+		asyncResult = udpClient.BeginReceive( null, null );
 
 	}
 	
@@ -51,8 +53,9 @@ public class CamFeed : MonoBehaviour {
 //        tx2d.Apply();
 //        Byte[] sendBytes = tx2d.EncodeToJPG(40);
 //        udpClient.Send(sendBytes, sendBytes.Length);
-		IAsyncResult asyncResult = udpClient.BeginReceive( null, null );
-		asyncResult.AsyncWaitHandle.WaitOne( TimeSpan.FromSeconds(0.1));
+		//asyncResult = udpClient.BeginReceive( null, null );
+		//asyncResult.AsyncWaitHandle.WaitOne( TimeSpan.FromSeconds(0.033));
+
 		if (asyncResult.IsCompleted)
 		{
 			Debug.Log("Received!!");
@@ -73,7 +76,7 @@ public class CamFeed : MonoBehaviour {
 			{
 				// EndReceive failed and we ended up here
 			}
-
+			asyncResult = udpClient.BeginReceive( null, null );
 		} 
 	}
 }

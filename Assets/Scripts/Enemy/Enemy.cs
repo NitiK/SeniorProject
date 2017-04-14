@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour {
 	}
 	void dead(){
 		isDead = true;
+		state = attack;
 		this.monKill.AddKillMonster (1);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
