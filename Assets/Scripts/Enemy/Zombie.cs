@@ -11,14 +11,15 @@ public class Zombie : Enemy {
 		isDead = false;
 		startingHealth = 100f;
 		currentHealth = startingHealth;
-		movespeed = 0.05f;
+		movespeed = 2f;
 		scoreValue = 10;
 		wanderRadius = 1f;
-		detectRange = 20f;
+		detectRange = 1f;
 		attackInterval = 1.1f;
 		attackRange = 5f;
 		anime = GetComponent<Animator> ();
 		agent = GetComponent<NavMeshAgent> ();
+		agent.speed = movespeed;
 	}
 
 }
