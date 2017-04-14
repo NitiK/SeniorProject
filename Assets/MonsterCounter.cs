@@ -46,5 +46,9 @@ public class MonsterCounter : MonoBehaviour {
         monsterCounterText.text = string.Format("Left {0} / {1}   ", killedMonster, maxMonster);
     }
 
+	public void AddKillMonster(int kill){
+		this.killedMonster += kill;
+	}
+
 
 }

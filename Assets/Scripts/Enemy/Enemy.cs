@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour {
 	public Transform player;
 	public NavMeshAgent agent;
 	public BarScript hpBar;
+	public MonsterCounter monKill;
 
 	// Use this for initialization
 	void Awake () {
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour {
 		agent = GetComponent<NavMeshAgent> ();
 		agent.speed = movespeed;
 		state = spawning;
+		monKill =  GameObject.FindGameObjectWithTag ("CanvasManager").GetComponent<MonsterCounter>();
 
 	}
 
@@ -119,6 +121,7 @@ public class Enemy : MonoBehaviour {
 	void dead(){
 		isDead = true;
 		state = die;
+		this.monKill.AddKillMonster (1);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
 	}
