@@ -125,6 +125,7 @@ public class Enemy : MonoBehaviour {
 		isDead = true;
 		state = die;
 		this.monKill.AddKillMonster (1);
+		Invoke ("destroyZombie",3f);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
 //		GetComponent<Enemy> ().enabled = false;
@@ -151,5 +152,10 @@ public class Enemy : MonoBehaviour {
 //		print("Damage to player");
 		this.player.GetComponent<PlayerController> ().takeDamage (0.1f);
 		this.hpBar.setFillAmount(this.player.GetComponent<PlayerController> ().getHP());
+	}
+	void destroyZombie(){
+		//Damage to player
+		//		print("Damage to player");
+		Destroy(this.transform.gameObject);
 	}
 }
