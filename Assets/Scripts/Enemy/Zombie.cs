@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class Zombie : Enemy {
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 		player =  GameObject.FindGameObjectWithTag ("Player").transform;
 		hpBar = GameObject.FindGameObjectWithTag ("HealthBar").GetComponent<BarScript>();
 		monKill =  GameObject.FindGameObjectWithTag ("CanvasManager").GetComponent<MonsterCounter>();

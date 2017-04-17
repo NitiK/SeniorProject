@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface Weapon {
 
-	void Hit (GameObject target);
+	void Hit (GameObject target, Vector3 point);
 }

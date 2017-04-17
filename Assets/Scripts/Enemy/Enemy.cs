@@ -31,8 +31,10 @@ public class Enemy : MonoBehaviour {
 	public BarScript hpBar;
 	public MonsterCounter monKill;
 
-	// Use this for initialization
-	void Awake () {
+    public GameObject hitEffect;
+    public float destoryHitEffectTime;
+    // Use this for initialization
+    void Awake () {
 		player =  GameObject.FindGameObjectWithTag ("Player").transform;
 		currentHealth = startingHealth;
 		isDead = false;
@@ -91,13 +93,16 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	public void takeDamage(float dmg){
+	public void takeDamage(float dmg, Vector3 point){
 		if(isDead){
 			return;
 		}
 		currentHealth -= dmg;
 		anime.SetBool("isDamage",true);
-		if(currentHealth<=0){
+        GameObject instantiatedObj = Instantiate(hitEffect, point, Quaternion.identity, gameObject.transform) as GameObject;
+        Destroy(instantiatedObj, destoryHitEffectTime);
+
+        if (currentHealth<=0){
 			dead();
 		}
 	}

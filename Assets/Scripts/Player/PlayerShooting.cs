@@ -147,7 +147,8 @@ public class PlayerShooting : MonoBehaviour
         if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
         {
 			Debug.Log (shootHit.collider.name + " : "+shootHit.distance);
-			this.activeWeapon.GetComponent<Weapon>().Hit(shootHit.collider.gameObject);
+
+            this.activeWeapon.GetComponent<Weapon>().Hit(shootHit.collider.gameObject, shootHit.point);
             /*EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
             if(enemyHealth != null)
             {
