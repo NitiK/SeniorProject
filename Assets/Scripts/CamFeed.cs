@@ -19,10 +19,17 @@ public class CamFeed : MonoBehaviour {
 //	private IPEndPoint RemoteIpEndPoint;
 //	private TcpClient tcpClient;
 	private IAsyncResult asyncResult;
+	public Vector3 oldPosition;
+	public Vector3 newPosition;
+	private float runner; 
 
 
 	void Start () {
         Debug.Log ("Start Braa!!!");
+		oldPosition = Vector3.zero ;
+		newPosition = Vector3.zero ;
+		runner = 1f;
+
 //        var deviceName = WebCamTexture.devices[0].name;
 
 //        webCamTexture = new WebCamTexture();
@@ -47,7 +54,7 @@ public class CamFeed : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 //        output.GetComponent<RawImage>().texture = webCamTexture;
 //        tx2d.SetPixels(webCamTexture.GetPixels());
 //        tx2d.Apply();
@@ -56,29 +63,35 @@ public class CamFeed : MonoBehaviour {
 		//asyncResult = udpClient.BeginReceive( null, null );
 		//asyncResult.AsyncWaitHandle.WaitOne( TimeSpan.FromSeconds(0.033));
 
-		if (asyncResult.IsCompleted)
-		{
-			Debug.Log("Received!!");
-			try
-			{	
+		if (asyncResult.IsCompleted && runner>= 0.8f) {
+			Debug.Log ("Received!!");
+			try {	
 				IPEndPoint remoteEP = null;
-				byte[] receivedData = udpClient.EndReceive( asyncResult, ref remoteEP );
-				string returnData = Encoding.ASCII.GetString(receivedData);
-				UDPJson temp = JsonUtility.FromJson<UDPJson>(returnData);
-				Seq.text = temp.header.seq+"";
-				Debug.Log(temp.header.seq);
-				TranslatePosition(new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f));
+				byte[] receivedData = udpClient.EndReceive (asyncResult, ref remoteEP);
+				string returnData = Encoding.ASCII.GetString (receivedData);
+				UDPJson temp = JsonUtility.FromJson<UDPJson> (returnData);
+				Seq.text = temp.header.seq + "";
+				Debug.Log (temp.header.seq);
+				oldPosition = newPosition;
+				newPosition = new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f);
+				runner = 0f;
+				TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
+				runner += 0.33f;
+				//TranslatePosition (new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f));
 //				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
 //				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
 
 				// EndReceive worked and we have received data and remote endpoint
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				// EndReceive failed and we ended up here
 			}
-			asyncResult = udpClient.BeginReceive( null, null );
-		} 
+			asyncResult = udpClient.BeginReceive (null, null);
+		} else if (runner <= 0.8F){
+			Debug.Log ("---- " + runner);
+			TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
+			runner += 0.33f;
+		
+		}
 	}
 
 	void TranslatePosition(Vector3 input){
@@ -95,6 +108,11 @@ public class CamFeed : MonoBehaviour {
 		transform.parent.transform.position = center + dir; // define new position
 
 	}
+
+//	Vector3 linear_interpolate(float y1,float y2, int mu){
+//		return (y1 * (1 - mu) + y2 * mu);
+//	}
+
 }
 //posisiton  y *(-1)
 
