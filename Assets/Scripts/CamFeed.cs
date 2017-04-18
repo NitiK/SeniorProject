@@ -67,7 +67,8 @@ public class CamFeed : MonoBehaviour {
 				UDPJson temp = JsonUtility.FromJson<UDPJson>(returnData);
 				Seq.text = temp.header.seq+"";
 				Debug.Log(temp.header.seq);
-				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
+				TranslatePosition(new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f));
+//				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
 //				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
 
 				// EndReceive worked and we have received data and remote endpoint
@@ -78,6 +79,21 @@ public class CamFeed : MonoBehaviour {
 			}
 			asyncResult = udpClient.BeginReceive( null, null );
 		} 
+	}
+
+	void TranslatePosition(Vector3 input){
+		transform.parent.transform.position = input;
+		Vector3 pos = transform.parent.transform.position;
+		Vector3 center = new Vector3 (0f,3.8f, 2f); 
+		Quaternion rot = Quaternion.AngleAxis(-1.16f,Vector3.up); // get the desired rotation
+		Vector3 dir = pos - center; // find current direction relative to center
+		dir = rot * dir; // rotate the direction
+		transform.parent.transform.position = center + dir; // define new position
+		rot = Quaternion.AngleAxis(-9.67f,Vector3.forward); // get the desired rotation
+		dir = pos - center; // find current direction relative to center
+		dir = rot * dir; // rotate the direction
+		transform.parent.transform.position = center + dir; // define new position
+
 	}
 }
 //posisiton  y *(-1)
