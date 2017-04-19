@@ -21,7 +21,7 @@ public class ButtonMenu : MonoBehaviour {
 	private Image image;
 	private float targetAlpha;
 	float nextStage;
-	float delay=7.0f;
+	float delay=3.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -46,7 +46,7 @@ public class ButtonMenu : MonoBehaviour {
 	void Update () {
 		if (Time.time > nextStage) {
 			//nextStage = Time.time + 10f;
-			print("FadeIN");
+			//print("FadeIN");
 			FadeIn ();
 		}
 		Color curColor = this.image.color;
