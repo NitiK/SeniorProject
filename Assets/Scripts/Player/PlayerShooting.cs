@@ -80,6 +80,10 @@ public class PlayerShooting : MonoBehaviour
 			this.bullet = 10;
 			this.bulletText.text = this.bullet + " / 10";
             CancelInvoke("blinkBulletButton");
+
+            ColorBlock colorBlock = bulletButton.colors;
+            colorBlock.normalColor = bulletButtonColor1;
+            bulletButton.colors = colorBlock;
         }
 		//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		//{
@@ -203,6 +207,9 @@ public class PlayerShooting : MonoBehaviour
             this.pickButton.interactable = false;
             //this.pickButtonText.text = "Plane";
             CancelInvoke("blinkPickButton");
+            ColorBlock colorBlock = pickButton.colors;
+            colorBlock.normalColor = pickButtonColor1;
+            pickButton.colors = colorBlock;
         }
 	}
 
