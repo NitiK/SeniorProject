@@ -7,7 +7,11 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 	public Text pickButtonText;
-	public Text bulletText;
+    public Button pickButton;
+    private Color pickButtonColor1;
+    private Color pickButtonColor2;
+
+    public Text bulletText;
 	public int bullet;
 
 	GameObject myweapon;
@@ -34,7 +38,11 @@ public class PlayerShooting : MonoBehaviour
         gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
 
-		this.weaponArea = false;
+        pickButtonColor1 = pickButton.colors.normalColor;
+        pickButtonColor2 = pickButton.colors.disabledColor;
+
+
+        this.weaponArea = false;
 		setMyweapon ();
     }
 
@@ -169,8 +177,10 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon") {
 			this.weaponArea = true;
 			this.weapon = other.gameObject;
-			this.pickButtonText.text = "Weapon";
-		} 
+            this.pickButton.interactable = true;
+            InvokeRepeating("blinkPickButton", 0f, 0.1f);
+            //this.pickButtonText.text = "Weapon";
+        } 
 	}
 
 	void OnTriggerExit(Collider other)
@@ -178,7 +188,16 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon")
 		{
 			this.weaponArea = false;
-			this.pickButtonText.text = "Plane";
-		}
+            this.pickButton.interactable = false;
+            //this.pickButtonText.text = "Plane";
+            CancelInvoke("blinkPickButton");
+        }
 	}
+
+    void blinkPickButton()
+    {
+        ColorBlock colorBlock = pickButton.colors;
+        colorBlock.normalColor = Color.Lerp(pickButtonColor1, pickButtonColor2, Mathf.Abs(Mathf.Cos(Time.fixedTime % 1 / 1 * Mathf.PI)));
+        pickButton.colors = colorBlock;
+    }
 }
