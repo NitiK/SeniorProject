@@ -22,6 +22,10 @@ public class Timer : MonoBehaviour {
         if (isGameRunning)
         {
             remainingTime -= Time.deltaTime;
+            if (remainingTime < 0)
+            {
+                remainingTime = 0;
+            }
         }
 
         int minute = (int)remainingTime / 60;
