@@ -55,7 +55,8 @@ public class Enemy : MonoBehaviour {
 		switch (state) {
 
 		case spawning:
-			Invoke ("AfterSpawn", 2.2f);
+			Invoke ("AfterSpawn", 2.04f);
+			state = attacklaow;
 			break;
 
 		case portal:
@@ -127,12 +128,16 @@ public class Enemy : MonoBehaviour {
 		state = attacklaow;
 	}
 	void dead(){
+		agent.Stop ();
 		isDead = true;
 		state = die;
 		this.monKill.AddKillMonster (1);
 		Invoke ("destroyZombie",3f);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
+		agent.enabled = false;
+		GetComponent<Collider> ().enabled = false;
+//		transform.position += Vector3.down*0.2f;
 //		GetComponent<Enemy> ().enabled = false;
 	}
 	public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) {
@@ -150,7 +155,9 @@ public class Enemy : MonoBehaviour {
 		state = chase;
 	}
 	void AfterSpawn (){
+		Debug.Log ("After Spawn");
 		state = portal;
+		agent.enabled = true;
 	}
 	void applyDamage(){
 		//Damage to player
