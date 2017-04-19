@@ -7,7 +7,15 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 	public Text pickButtonText;
-	public Text bulletText;
+    public Button pickButton;
+    private Color pickButtonColor1;
+    private Color pickButtonColor2;
+
+    private Color bulletButtonColor1;
+    private Color bulletButtonColor2;
+
+    public Text bulletText;
+    public Button bulletButton;
 	public int bullet;
 
 	GameObject myweapon;
@@ -34,7 +42,14 @@ public class PlayerShooting : MonoBehaviour
         gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
 
-		this.weaponArea = false;
+        pickButtonColor1 = pickButton.colors.normalColor;
+        pickButtonColor2 = pickButton.colors.disabledColor;
+
+        bulletButtonColor1 = bulletButton.colors.normalColor;
+        bulletButtonColor2 = bulletButton.colors.disabledColor;
+
+
+        this.weaponArea = false;
 		setMyweapon ();
     }
 
@@ -50,6 +65,10 @@ public class PlayerShooting : MonoBehaviour
 				this.bulletText.text = this.bullet + " / 10";
 				Shoot ();
 			}
+            if (this.bullet == 3)
+            {
+                InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+            }
 		}
 
 		if (Input.GetKeyDown ("e")) {
@@ -60,15 +79,20 @@ public class PlayerShooting : MonoBehaviour
 			//print (this.weaponArea);
 			this.bullet = 10;
 			this.bulletText.text = this.bullet + " / 10";
-		}
-		if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
-		{
-			if (this.bullet > 0) {
-				this.bullet -= 1;
-				this.bulletText.text = this.bullet + " / 10";
-				Shoot ();
-			}
-		}
+            CancelInvoke("blinkBulletButton");
+
+            ColorBlock colorBlock = bulletButton.colors;
+            colorBlock.normalColor = bulletButtonColor1;
+            bulletButton.colors = colorBlock;
+        }
+		//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
+		//{
+		//	if (this.bullet > 0) {
+		//		this.bullet -= 1;
+		//		this.bulletText.text = this.bullet + " / 10";
+		//		Shoot ();
+		//	}
+		//}
 
         if(timer >= timeBetweenBullets * effectsDisplayTime)
         {
@@ -169,8 +193,10 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon") {
 			this.weaponArea = true;
 			this.weapon = other.gameObject;
-			this.pickButtonText.text = "Weapon";
-		} 
+            this.pickButton.interactable = true;
+            InvokeRepeating("blinkPickButton", 0f, 0.1f);
+            //this.pickButtonText.text = "Weapon";
+        } 
 	}
 
 	void OnTriggerExit(Collider other)
@@ -178,7 +204,26 @@ public class PlayerShooting : MonoBehaviour
 		if (other.gameObject.tag == "Weapon")
 		{
 			this.weaponArea = false;
-			this.pickButtonText.text = "Plane";
-		}
+            this.pickButton.interactable = false;
+            //this.pickButtonText.text = "Plane";
+            CancelInvoke("blinkPickButton");
+            ColorBlock colorBlock = pickButton.colors;
+            colorBlock.normalColor = pickButtonColor1;
+            pickButton.colors = colorBlock;
+        }
 	}
+
+    void blinkPickButton()
+    {
+        ColorBlock colorBlock = pickButton.colors;
+        colorBlock.normalColor = Color.Lerp(pickButtonColor1, pickButtonColor2, Mathf.Abs(Mathf.Cos(Time.fixedTime % 1 / 1 * Mathf.PI)));
+        pickButton.colors = colorBlock;
+    }
+
+    void blinkBulletButton()
+    {
+        ColorBlock colorBlock = bulletButton.colors;
+        colorBlock.normalColor = Color.Lerp(pickButtonColor1, pickButtonColor2, Mathf.Abs(Mathf.Cos(Time.fixedTime % 1 / 1 * Mathf.PI)));
+        bulletButton.colors = colorBlock;
+    }
 }
