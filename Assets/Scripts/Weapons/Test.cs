@@ -8,7 +8,11 @@ public class Test : MonoBehaviour, Weapon{
 		Debug.Log ("Test Hit");
 		//target.transform.localScale = target.transform.localScale * 0.5f;
 		//GameObject.Instantiate (target);
-		target.GetComponent<Enemy>().takeDamage(10f, point);
-		//Destroy (target);
-	}
+        if (target.GetComponent<Enemy>() != null)
+		    target.GetComponent<Enemy>().takeDamage(10f, point);
+
+        if (target.GetComponent<Cube>() != null)
+            target.GetComponent<Cube>().takeDamage(10f, point);
+        //Destroy (target);
+    }
 }
