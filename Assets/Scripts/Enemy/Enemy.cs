@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour {
 	public float attackInterval = 2f;
 	public float attackRange = 1f;
 	public float collideTime;
+	public float AtkDamage;
+	public float creepUpTime;
 	public int state = portal;
 	public bool isDead;
 	public Animator anime;
@@ -55,7 +57,8 @@ public class Enemy : MonoBehaviour {
 		switch (state) {
 
 		case spawning:
-			Invoke ("AfterSpawn", 2.2f);
+			Invoke ("AfterSpawn", creepUpTime);
+			state = attacklaow;
 			break;
 
 		case portal:
@@ -77,6 +80,13 @@ public class Enemy : MonoBehaviour {
 			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0) {
 				state = portal;
 			}
+			NavMeshPath path = new NavMeshPath();
+			agent.CalculatePath(agent.destination, path);
+			if (path.status == NavMeshPathStatus.PathPartial)
+			{
+				state = portal;
+			}
+
 			break;
 
 		case die:
@@ -84,9 +94,10 @@ public class Enemy : MonoBehaviour {
 			break;
 
 		}
-		if (state != die) {
+		if (state != die&&state!=attacklaow) {
 			if (Vector3.Distance (transform.position, player.transform.position) <= attackRange && state == chase) {
 				state = attack;
+				agent.Stop ();
 			} else if (Vector3.Distance (transform.position, player.transform.position) <= detectRange ) {
 				state = chase;
 			}
@@ -96,6 +107,9 @@ public class Enemy : MonoBehaviour {
 	public void takeDamage(float dmg, Vector3 point){
 		if(isDead){
 			return;
+		}
+		if (state != attacklaow) {
+			state = chase;
 		}
 		currentHealth -= dmg;
 		anime.SetBool("isDamage",true);
@@ -122,17 +136,21 @@ public class Enemy : MonoBehaviour {
 //	}
 	void Attack(){
 //		Debug.Log ("Zombie Attack!!");
-		Invoke ("applyDamage",attackInterval/2.1f);
+		Invoke ("applyDamage",0.5f);
 		Invoke ("Reset", attackInterval);
 		state = attacklaow;
 	}
 	void dead(){
+		agent.Stop ();
 		isDead = true;
 		state = die;
 		this.monKill.AddKillMonster (1);
 		Invoke ("destroyZombie",3f);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
+		agent.enabled = false;
+		GetComponent<Collider> ().enabled = false;
+//		transform.position += Vector3.down*0.2f;
 //		GetComponent<Enemy> ().enabled = false;
 	}
 	public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) {
@@ -150,12 +168,14 @@ public class Enemy : MonoBehaviour {
 		state = chase;
 	}
 	void AfterSpawn (){
+		Debug.Log ("After Spawn");
 		state = portal;
+		agent.enabled = true;
 	}
 	void applyDamage(){
 		//Damage to player
 //		print("Damage to player");
-		this.player.GetComponent<PlayerController> ().takeDamage (0.1f);
+		this.player.GetComponent<PlayerController> ().takeDamage (AtkDamage);
 		this.hpBar.setFillAmount(this.player.GetComponent<PlayerController> ().getHP());
 	}
 	void destroyZombie(){

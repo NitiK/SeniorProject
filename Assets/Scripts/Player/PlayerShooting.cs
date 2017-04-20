@@ -7,6 +7,7 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 	public Text pickButtonText;
+	public Button fireButton;
     public Button pickButton;
     private Color pickButtonColor1;
     private Color pickButtonColor2;
@@ -32,6 +33,7 @@ public class PlayerShooting : MonoBehaviour
     AudioSource gunAudio;
     Light gunLight;
     float effectsDisplayTime = 0.2f;
+	private bool clickShoot;
 
 
     void Awake ()
@@ -50,6 +52,7 @@ public class PlayerShooting : MonoBehaviour
 
 
         this.weaponArea = false;
+		this.clickShoot = false;
 		setMyweapon ();
     }
 
@@ -57,8 +60,9 @@ public class PlayerShooting : MonoBehaviour
     void Update ()
     {
         timer += Time.deltaTime;
+	
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+		/*if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
 			if (this.bullet > 0) {
 				this.bullet -= 1;
@@ -69,6 +73,20 @@ public class PlayerShooting : MonoBehaviour
             {
                 InvokeRepeating("blinkBulletButton", 0f, 0.1f);
             }
+		}*/
+
+		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0)
+		{
+			this.clickShoot = false;
+			if (this.bullet > 0) {
+				this.bullet -= 1;
+				this.bulletText.text = this.bullet + " / 10";
+				Shoot ();
+			}
+			if (this.bullet == 3)
+			{
+				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+			}
 		}
 
 		if (Input.GetKeyDown ("e")) {
@@ -80,10 +98,6 @@ public class PlayerShooting : MonoBehaviour
 			this.bullet = 10;
 			this.bulletText.text = this.bullet + " / 10";
             CancelInvoke("blinkBulletButton");
-
-            ColorBlock colorBlock = bulletButton.colors;
-            colorBlock.normalColor = bulletButtonColor1;
-            bulletButton.colors = colorBlock;
         }
 		//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		//{
@@ -130,6 +144,11 @@ public class PlayerShooting : MonoBehaviour
 	public void reBullet(){
 		this.bullet = 10;
 		this.bulletText.text = this.bullet + " / 10";
+	}
+
+	public void weaponShoot(){
+		print ("fire button click!!");
+		this.clickShoot = true;
 	}
 
 	public void pickWeapon(){
@@ -207,9 +226,6 @@ public class PlayerShooting : MonoBehaviour
             this.pickButton.interactable = false;
             //this.pickButtonText.text = "Plane";
             CancelInvoke("blinkPickButton");
-            ColorBlock colorBlock = pickButton.colors;
-            colorBlock.normalColor = pickButtonColor1;
-            pickButton.colors = colorBlock;
         }
 	}
 
