@@ -24,7 +24,7 @@ public class CamFeed : MonoBehaviour {
 	private float runner; 
 
 
-	void Start () {
+	void Awake () {
         Debug.Log ("Start Braa!!!");
 		oldPosition = Vector3.zero ;
 		newPosition = Vector3.zero ;
