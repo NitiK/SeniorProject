@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour {
 	public float attackInterval = 2f;
 	public float attackRange = 1f;
 	public float collideTime;
+	public float AtkDamage;
 	public float creepUpTime;
 	public int state = portal;
 	public bool isDead;
@@ -79,6 +80,13 @@ public class Enemy : MonoBehaviour {
 			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0) {
 				state = portal;
 			}
+			NavMeshPath path = new NavMeshPath();
+			agent.CalculatePath(agent.destination, path);
+			if (path.status == NavMeshPathStatus.PathPartial)
+			{
+				state = portal;
+			}
+
 			break;
 
 		case die:
@@ -86,7 +94,7 @@ public class Enemy : MonoBehaviour {
 			break;
 
 		}
-		if (state != die) {
+		if (state != die&&state!=attacklaow) {
 			if (Vector3.Distance (transform.position, player.transform.position) <= attackRange && state == chase) {
 				state = attack;
 				agent.Stop ();
@@ -128,7 +136,7 @@ public class Enemy : MonoBehaviour {
 //	}
 	void Attack(){
 //		Debug.Log ("Zombie Attack!!");
-		Invoke ("applyDamage",attackInterval/2.1f);
+		Invoke ("applyDamage",0.5f);
 		Invoke ("Reset", attackInterval);
 		state = attacklaow;
 	}
@@ -167,7 +175,7 @@ public class Enemy : MonoBehaviour {
 	void applyDamage(){
 		//Damage to player
 //		print("Damage to player");
-		this.player.GetComponent<PlayerController> ().takeDamage (0.1f);
+		this.player.GetComponent<PlayerController> ().takeDamage (AtkDamage);
 		this.hpBar.setFillAmount(this.player.GetComponent<PlayerController> ().getHP());
 	}
 	void destroyZombie(){
