@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour {
 		timer += Time.deltaTime;
 		if (timer > 1 && count < TotalSpawn-1) {
 			int ran = Random.Range (0, transform.childCount - 1);
-			GameObject.Instantiate (zombie, transform.GetChild (ran).position, transform.GetChild (ran).rotation);
+			GameObject.Instantiate (zombie, transform.GetChild (ran).position+new Vector3(0f,-1f,0f), transform.GetChild (ran).rotation);
 			timer -= 1;
 			count++;
 		}
