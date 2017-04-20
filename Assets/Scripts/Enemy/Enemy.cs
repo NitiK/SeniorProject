@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour {
 	public float attackInterval = 2f;
 	public float attackRange = 1f;
 	public float collideTime;
+	public float creepUpTime;
 	public int state = portal;
 	public bool isDead;
 	public Animator anime;
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour {
 		switch (state) {
 
 		case spawning:
-			Invoke ("AfterSpawn", 2.04f);
+			Invoke ("AfterSpawn", creepUpTime);
 			state = attacklaow;
 			break;
 
@@ -88,6 +89,7 @@ public class Enemy : MonoBehaviour {
 		if (state != die) {
 			if (Vector3.Distance (transform.position, player.transform.position) <= attackRange && state == chase) {
 				state = attack;
+				agent.Stop ();
 			} else if (Vector3.Distance (transform.position, player.transform.position) <= detectRange ) {
 				state = chase;
 			}
@@ -97,6 +99,9 @@ public class Enemy : MonoBehaviour {
 	public void takeDamage(float dmg, Vector3 point){
 		if(isDead){
 			return;
+		}
+		if (state != attacklaow) {
+			state = chase;
 		}
 		currentHealth -= dmg;
 		anime.SetBool("isDamage",true);
