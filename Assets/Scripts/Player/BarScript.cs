@@ -7,6 +7,8 @@ public class BarScript : MonoBehaviour {
 
 
 	public float fillAmount;
+	public GameObject gameOverImage;
+	private GameObject playerCamera;
 
 	public Image content;
 
@@ -14,6 +16,7 @@ public class BarScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gameOver = false;
+		playerCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 	}
 
 	// Update is called once per frame
@@ -22,8 +25,7 @@ public class BarScript : MonoBehaviour {
 		if (fillAmount == 0 && !gameOver) {
 			gameOver = true;
 			//float fadeTime = GameObject.Find ("GameManager").GetComponent<Fading> ().BeginFade (1);
-
-			GameObject.FindGameObjectWithTag ("GameOver").GetComponent<ButtonMenu> ().GameOver ();
+			gameOverImage.GetComponent<ButtonMenu> ().GameOver ();
 			Invoke ("FadetoMenu", 5f);
 		}
 	}
@@ -39,6 +41,7 @@ public class BarScript : MonoBehaviour {
 
 	void LoadAnotherLevel(){
 		//GameObject.Find ("GameManager").GetComponent<Fading> ().BeginFade (1);
+		playerCamera.GetComponent<CamFeed>().closeUDP();
 		Application.LoadLevel("Main menu");
 	}
 
