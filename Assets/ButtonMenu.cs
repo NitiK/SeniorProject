@@ -21,10 +21,13 @@ public class ButtonMenu : MonoBehaviour {
 	private Image image;
 	private float targetAlpha;
 	float nextStage;
-	float delay=3.0f;
+	float delay=2.0f;
+
+	private bool gameOver;
 
 	// Use this for initialization
 	void Start () {
+		gameOver = false;
 		this.image = this.GetComponent<Image>();
 		//this.image.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
 		Color temp = this.image.color;
@@ -44,7 +47,7 @@ public class ButtonMenu : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Time.time > nextStage) {
+		if (Time.time > nextStage && gameOver) {
 			//nextStage = Time.time + 10f;
 			//print("FadeIN");
 			FadeIn ();
@@ -66,5 +69,13 @@ public class ButtonMenu : MonoBehaviour {
 	public void FadeIn()
 	{
 		this.targetAlpha = 1.0f;
+	}
+
+	public void GameOver(){
+		gameOver = true;
+	}
+
+	public void ResetGame(){
+		gameOver = false;
 	}
 }
