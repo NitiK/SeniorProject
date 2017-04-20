@@ -17,11 +17,11 @@ public class CameraAdjust : MonoBehaviour {
 	public void Plus(){
 		//transform.Rotate (Vector3.back*10);
 		transform.Rotate (Vector3.forward);
-		text.text = transform.eulerAngles.y.ToString();
+		text.text = Mathf.RoundToInt(transform.eulerAngles.y).ToString();
 	}
 	public void Minus(){
 		//transform.Rotate (Vector3.forward*10);
 		transform.Rotate (Vector3.back);
-		text.text = transform.eulerAngles.y.ToString();
-	}
+		text.text = Mathf.RoundToInt(transform.eulerAngles.y).ToString();
+    }
 }
