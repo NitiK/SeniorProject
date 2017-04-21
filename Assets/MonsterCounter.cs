@@ -9,7 +9,9 @@ public class MonsterCounter : MonoBehaviour {
     public int maxMonster;
     public int killedMonster;
     public Text monsterCounterText;
-	private int clear = 0;
+	private bool clear;
+	private GameObject playerCamera;
+	public GameObject gameContinueImage;
 
     public int KilledMonster
     {
@@ -40,15 +42,16 @@ public class MonsterCounter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+		this.clear = false;
+		playerCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 	}
 	
 	// Update is called once per frame
 	void Update () {
         monsterCounterText.text = string.Format("Left {0} / {1}   ", killedMonster, maxMonster);
-		if (killedMonster == maxMonster) {
-			Invoke ("loadAnotherLevel", 5f);
-			this.clear = 1;
+		if ((killedMonster == maxMonster) && !this.clear) {
+			Invoke ("ToBeContinue", 5f);
+			this.clear = true;
 		}
     }
 
@@ -56,8 +59,20 @@ public class MonsterCounter : MonoBehaviour {
 		this.killedMonster += kill;
 	}
 
-	void loadAnotherLevel(){
-		Application.LoadLevel("Gun lv2");
+	void ToBeContinue(){
+		gameContinueImage.GetComponent<ButtonMenu> ().GameContinue ();
+		Invoke ("FadetoMenu", 5f);
+	}
+
+	void FadetoMenu(){
+		
+		float fadeTime = GameObject.Find ("GameManager").GetComponent<Fading> ().BeginFade (1);
+		Invoke ("LoadAnotherLevel", fadeTime);
+	}
+
+	void LoadAnotherLevel(){
+		playerCamera.GetComponent<CamFeed>().closeUDP();
+		Application.LoadLevel("Main menu");
 	}
 
 

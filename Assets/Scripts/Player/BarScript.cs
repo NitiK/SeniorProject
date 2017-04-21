@@ -8,6 +8,7 @@ public class BarScript : MonoBehaviour {
 
 	public float fillAmount;
 	public GameObject gameOverImage;
+
 	private GameObject playerCamera;
 
 	public Image content;
