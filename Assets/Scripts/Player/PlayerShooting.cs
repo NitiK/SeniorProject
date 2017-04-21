@@ -178,6 +178,7 @@ public class PlayerShooting : MonoBehaviour
 
         gunLight.enabled = true;
 
+		GetComponentInChildren<Animator> ().Play ("Gun");
         /*gunParticles.Stop ();
         gunParticles.Play ();*/
 
