@@ -11,11 +11,14 @@ public class EditorManager : MonoBehaviour {
 	RaycastHit hit;
 	float nextStage;
 	float delay=1.0f;
+    private bool isTrack;
+
 	// Use this for initialization
 	void Start () {
 		Collection = GameObject.Find ("Collection");
 		nextStage = Time.time + delay;
-	}
+        isTrack = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,7 +44,7 @@ public class EditorManager : MonoBehaviour {
 //			}
 //
 //		}
-		if (Time.time > nextStage) {
+		if (Time.time > nextStage && isTrack) {
 			nextStage = Time.time + delay;
 			GameObject sphere = Instantiate (Sphere, transform.position, Quaternion.identity);
 			sphere.transform.parent = GameObject.Find ("Collection").transform;
@@ -49,7 +52,17 @@ public class EditorManager : MonoBehaviour {
 			
 	}
 
-	public void Press(Vector3 point){
+    public void StartTrack()
+    {
+        isTrack = true;
+    }
+
+    public void StopTrack()
+    {
+        isTrack = false;
+    }
+
+    public void Press(Vector3 point){
 		print (point);
 		if (P1 == empty) {
 			//P1 = transform.position + transform.forward*2;
