@@ -62,7 +62,7 @@ public class PlayerShooting : MonoBehaviour
         timer += Time.deltaTime;
 	
 
-		/*if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{
 			if (this.bullet > 0) {
 				this.bullet -= 1;
@@ -73,7 +73,7 @@ public class PlayerShooting : MonoBehaviour
             {
                 InvokeRepeating("blinkBulletButton", 0f, 0.1f);
             }
-		}*/
+		}
 
 		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0)
 		{

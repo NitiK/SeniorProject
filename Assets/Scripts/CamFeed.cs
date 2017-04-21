@@ -22,6 +22,7 @@ public class CamFeed : MonoBehaviour {
 	public Vector3 oldPosition;
 	public Vector3 newPosition;
 	private float runner; 
+	private bool udpIsclose;
 
 
 	void Awake () {
@@ -107,6 +108,10 @@ public class CamFeed : MonoBehaviour {
 		dir = rot * dir; // rotate the direction
 		transform.parent.transform.position = center + dir; // define new position
 
+	}
+
+	public void closeUDP(){
+		udpClient.Close ();
 	}
 
 //	Vector3 linear_interpolate(float y1,float y2, int mu){
