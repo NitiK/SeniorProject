@@ -51,9 +51,8 @@ public class Enemy : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-//		Debug.Log (transform.position);
+//		Debug.Log (state);
 		anime.SetInteger ("state",state);
-
 		switch (state) {
 
 		case spawning:
@@ -77,7 +76,7 @@ public class Enemy : MonoBehaviour {
 
 		case portaling:
 			float dist = agent.remainingDistance; 
-			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0) {
+			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 1) {
 				state = portal;
 			}
 			NavMeshPath path = new NavMeshPath();
@@ -90,12 +89,13 @@ public class Enemy : MonoBehaviour {
 			break;
 
 		case die:
-			agent.Stop ();
 			break;
 
 		}
-		if (state != die&&state!=attacklaow) {
-			if (Vector3.Distance (transform.position, player.transform.position) <= attackRange && state == chase) {
+		if (state != die&&state!=attacklaow&&state != attack) {
+			var relativePoint = transform.InverseTransformPoint(player.transform.position);
+			if (Vector3.Distance (transform.position, player.transform.position) <= attackRange && state == chase&&Mathf.Abs(relativePoint.x)<0.25f){
+
 				state = attack;
 				agent.Stop ();
 			} else if (Vector3.Distance (transform.position, player.transform.position) <= detectRange ) {
@@ -108,16 +108,31 @@ public class Enemy : MonoBehaviour {
 		if(isDead){
 			return;
 		}
+		currentHealth -= dmg;
 		if (state != attacklaow) {
 			state = chase;
+			CancelInvoke ();
+			if (currentHealth > 0) {
+				anime.SetBool ("IsDamage", true);
+			}
 		}
-		currentHealth -= dmg;
-		anime.SetBool("isDamage",true);
+
+//		if (currentHealth > 0) {
+//			anime.SetBool ("IsDamage", true);
+//		}
+		agent.Stop ();
+
         GameObject instantiatedObj = Instantiate(hitEffect, point, Quaternion.identity, gameObject.transform) as GameObject;
         Destroy(instantiatedObj, destoryHitEffectTime);
 
-        if (currentHealth<=0){
-			dead();
+		if (currentHealth <= 0) {
+			CancelInvoke();
+			dead ();
+		} else {
+			if (state != attacklaow) {
+				Invoke ("Reset", 0.25f);
+				Invoke ("ResetIsDamage", 0.1f);
+			}
 		}
 	}
 //	void OnCollisionEnter (Collision col)
@@ -136,7 +151,9 @@ public class Enemy : MonoBehaviour {
 //	}
 	void Attack(){
 //		Debug.Log ("Zombie Attack!!");
-		Invoke ("applyDamage",0.5f);
+		anime.Play("atack02");
+		agent.Stop();
+		Invoke ("applyDamage",0.4f);
 		Invoke ("Reset", attackInterval);
 		state = attacklaow;
 	}
@@ -145,7 +162,7 @@ public class Enemy : MonoBehaviour {
 		isDead = true;
 		state = die;
 		this.monKill.AddKillMonster (1);
-		Invoke ("destroyZombie",3f);
+		Invoke ("destroyZombie",10f);
 		anime.SetInteger ("deadState", Random.Range(1,3));
 		anime.SetBool("isDead",true);
 		agent.enabled = false;
@@ -166,11 +183,15 @@ public class Enemy : MonoBehaviour {
 	}
 	void Reset (){
 		state = chase;
+		agent.Resume ();
 	}
 	void AfterSpawn (){
 		Debug.Log ("After Spawn");
 		state = portal;
 		agent.enabled = true;
+	}
+	void ResetIsDamage(){
+		anime.SetBool("IsDamage",false);
 	}
 	void applyDamage(){
 		//Damage to player
