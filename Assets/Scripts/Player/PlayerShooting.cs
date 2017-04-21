@@ -6,6 +6,7 @@ public class PlayerShooting : MonoBehaviour
     public int damagePerShot = 20;
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
+	private bool canShoot;
 	public Text pickButtonText;
 	public Button fireButton;
     public Button pickButton;
@@ -51,7 +52,7 @@ public class PlayerShooting : MonoBehaviour
         bulletButtonColor1 = bulletButton.colors.normalColor;
         bulletButtonColor2 = bulletButton.colors.disabledColor;
 
-
+		this.canShoot = true;
         this.weaponArea = false;
 		this.clickShoot = false;
 		setMyweapon ();
@@ -63,7 +64,7 @@ public class PlayerShooting : MonoBehaviour
         timer += Time.deltaTime;
 	
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 		{
 			if (this.bullet > 0) {
 				this.bullet -= 1;
@@ -141,14 +142,30 @@ public class PlayerShooting : MonoBehaviour
 			}
 
 		}
+		anime = GetComponentInChildren<Animator> ();
+		anime.enabled = true;
 	}
 
 	public void reBullet(){
 		anime.Play ("Reload");
 		Debug.Log ("Reload");
+		this.canShoot = false;
+		Invoke ("reLoad", 1.8f);
+		Invoke ("delayReload", 1.8f);
+	}
+
+	void reLoad(){
 		this.bullet = 10;
 		this.bulletText.text = this.bullet + " / 10";
 		CancelInvoke("blinkBulletButton");
+
+		ColorBlock colorBlock = bulletButton.colors;
+		colorBlock.normalColor = bulletButtonColor1;
+		bulletButton.colors = colorBlock;
+	}
+
+	void delayReload(){
+		this.canShoot = true;
 	}
 
 	public void weaponShoot(){
@@ -158,11 +175,14 @@ public class PlayerShooting : MonoBehaviour
 
 	public void pickWeapon(){
 		if (this.weaponArea) {
+			this.canShoot = false;
+			Invoke ("delayReload", 1f);
 			//print ("Good");
 			this.activeWeapon.SetActive (false);
 			this.weapon.transform.position = this.activeWeapon.transform.position;
-			this.weapon.transform.rotation = this.activeWeapon.transform.rotation;
+			this.weapon.transform.eulerAngles = this.activeWeapon.transform.rotation.eulerAngles;
 			this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
+			print (this.weapon.transform.eulerAngles);
 			Destroy (this.weapon.transform.GetComponent<Rigidbody>());
 			Destroy (this.weapon.transform.GetComponent<BoxCollider>());
 			Destroy (this.weapon.transform.GetComponent<SphereCollider>());
@@ -171,8 +191,7 @@ public class PlayerShooting : MonoBehaviour
 			this.weaponArea = false;
 			setMyweapon ();
 		}
-	}
-
+	}		
 
     void Shoot ()
     {
@@ -232,6 +251,10 @@ public class PlayerShooting : MonoBehaviour
             this.pickButton.interactable = false;
             //this.pickButtonText.text = "Plane";
             CancelInvoke("blinkPickButton");
+
+			ColorBlock colorBlock = pickButton.colors;
+			colorBlock.normalColor = pickButtonColor1;
+			pickButton.colors = colorBlock;
         }
 	}
 
