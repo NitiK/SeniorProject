@@ -108,11 +108,18 @@ public class Enemy : MonoBehaviour {
 		if(isDead){
 			return;
 		}
+		currentHealth -= dmg;
 		if (state != attacklaow) {
 			state = chase;
+			CancelInvoke ();
+			if (currentHealth > 0) {
+				anime.SetBool ("IsDamage", true);
+			}
 		}
-		currentHealth -= dmg;
-		anime.SetBool("IsDamage",true);
+
+//		if (currentHealth > 0) {
+//			anime.SetBool ("IsDamage", true);
+//		}
 		agent.Stop ();
 
         GameObject instantiatedObj = Instantiate(hitEffect, point, Quaternion.identity, gameObject.transform) as GameObject;
@@ -122,8 +129,10 @@ public class Enemy : MonoBehaviour {
 			CancelInvoke();
 			dead ();
 		} else {
-			Invoke("Reset",0.2f);
-			Invoke ("ResetIsDamage", 0.1f);
+			if (state != attacklaow) {
+				Invoke ("Reset", 0.25f);
+				Invoke ("ResetIsDamage", 0.1f);
+			}
 		}
 	}
 //	void OnCollisionEnter (Collision col)
@@ -144,7 +153,7 @@ public class Enemy : MonoBehaviour {
 //		Debug.Log ("Zombie Attack!!");
 		anime.Play("atack02");
 		agent.Stop();
-		Invoke ("applyDamage",0.5f);
+		Invoke ("applyDamage",0.4f);
 		Invoke ("Reset", attackInterval);
 		state = attacklaow;
 	}
