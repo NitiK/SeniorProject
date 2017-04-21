@@ -34,7 +34,7 @@ public class PlayerShooting : MonoBehaviour
     Light gunLight;
     float effectsDisplayTime = 0.2f;
 	private bool clickShoot;
-
+	Animator anime;
 
     void Awake ()
     {
@@ -43,6 +43,7 @@ public class PlayerShooting : MonoBehaviour
         gunLine = GetComponent <LineRenderer> ();
         gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
+		anime = GetComponentInChildren<Animator> ();
 
         pickButtonColor1 = pickButton.colors.normalColor;
         pickButtonColor2 = pickButton.colors.disabledColor;
@@ -95,9 +96,10 @@ public class PlayerShooting : MonoBehaviour
 		}
 		if (Input.GetKeyDown ("r")) {
 			//print (this.weaponArea);
-			this.bullet = 10;
-			this.bulletText.text = this.bullet + " / 10";
-            CancelInvoke("blinkBulletButton");
+			reBullet();
+//			this.bullet = 10;
+//			this.bulletText.text = this.bullet + " / 10";
+//            CancelInvoke("blinkBulletButton");
         }
 		//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
 		//{
@@ -142,8 +144,11 @@ public class PlayerShooting : MonoBehaviour
 	}
 
 	public void reBullet(){
+		anime.Play ("Reload");
+		Debug.Log ("Reload");
 		this.bullet = 10;
 		this.bulletText.text = this.bullet + " / 10";
+		CancelInvoke("blinkBulletButton");
 	}
 
 	public void weaponShoot(){
@@ -178,7 +183,7 @@ public class PlayerShooting : MonoBehaviour
 
         gunLight.enabled = true;
 
-		GetComponentInChildren<Animator> ().Play ("Gun");
+		anime.Play ("Gun");
         /*gunParticles.Stop ();
         gunParticles.Play ();*/
 
