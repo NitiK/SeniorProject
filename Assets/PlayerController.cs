@@ -24,7 +24,11 @@ public class PlayerController : MonoBehaviour {
 
 	public void takeDamage(float damage){
 		if (this.playerHP > 0) {
-			this.playerHP -= damage;
+			if (this.playerHP - damage < 0) {
+				this.playerHP = 0;
+			} else {
+				this.playerHP -= damage;
+			}
 		} else {
 			this.playerHP = 0;
 		}

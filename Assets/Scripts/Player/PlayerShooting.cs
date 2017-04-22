@@ -77,7 +77,7 @@ public class PlayerShooting : MonoBehaviour
             }
 		}
 
-		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0)
+		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 		{
 			this.clickShoot = false;
 			if (this.bullet > 0) {
@@ -180,9 +180,11 @@ public class PlayerShooting : MonoBehaviour
 			//print ("Good");
 			this.activeWeapon.SetActive (false);
 			this.weapon.transform.position = this.activeWeapon.transform.position;
-			this.weapon.transform.eulerAngles = this.activeWeapon.transform.rotation.eulerAngles;
+			//print (this.weapon.transform.eulerAngles + " : " + this.activeWeapon.transform.eulerAngles);
+			this.weapon.transform.eulerAngles = this.activeWeapon.transform.eulerAngles;
+			//print (this.weapon.transform.eulerAngles);
 			this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
-			print (this.weapon.transform.eulerAngles);
+			//print (this.weapon.transform.rotation);
 			Destroy (this.weapon.transform.GetComponent<Rigidbody>());
 			Destroy (this.weapon.transform.GetComponent<BoxCollider>());
 			Destroy (this.weapon.transform.GetComponent<SphereCollider>());

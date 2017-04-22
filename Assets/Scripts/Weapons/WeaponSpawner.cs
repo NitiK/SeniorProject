@@ -19,7 +19,8 @@ public class WeaponSpawner : MonoBehaviour {
 		if (timer > 1 && count < TotalSpawn) {
 			int randomIndex = Random.Range( 0, weapon.Count );
 			int ran = Random.Range (0, transform.childCount - 1);
-			GameObject.Instantiate (weapon[randomIndex], transform.GetChild (ran).position, weapon[randomIndex].transform.localRotation);
+			GameObject tmp = GameObject.Instantiate (weapon[randomIndex], transform.GetChild (ran).position, weapon[randomIndex].transform.localRotation);
+			tmp.GetComponent<Rigidbody> ().AddForce (4, 0, 0, ForceMode.Impulse);
 			timer -= 1;
 			count++;
 		}
