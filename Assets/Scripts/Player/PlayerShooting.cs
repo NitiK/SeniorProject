@@ -82,7 +82,7 @@ public class PlayerShooting : MonoBehaviour
 			this.clickShoot = false;
 			if (this.bullet > 0) {
 				this.bullet -= 1;
-				this.bulletText.text = this.bullet + " / 10";
+				this.bulletText.text = this.bullet + " / 10"; 
 				Shoot ();
 			}
 			if (this.bullet == 3)
@@ -203,6 +203,9 @@ public class PlayerShooting : MonoBehaviour
         gunLight.enabled = true;
 
 		anime.Play ("Gun");
+		if (this.bullet == 0) {
+			Invoke ("OutOfBullet",0.333f);
+		}
         /*gunParticles.Stop ();
         gunParticles.Play ();*/
 
@@ -223,7 +226,7 @@ public class PlayerShooting : MonoBehaviour
                 enemyHealth.TakeDamage (damagePerShot, shootHit.point);
 				Debug.Log ("Done");
             }*/
-            gunLine.SetPosition (1, shootHit.point);
+			gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
         }
         else
         {
@@ -271,4 +274,7 @@ public class PlayerShooting : MonoBehaviour
         colorBlock.normalColor = Color.Lerp(pickButtonColor1, pickButtonColor2, Mathf.Abs(Mathf.Cos(Time.fixedTime % 1 / 1 * Mathf.PI)));
         bulletButton.colors = colorBlock;
     }
+	void OutOfBullet(){
+		anime.Play ("OutOfBullet");
+	}
 }
