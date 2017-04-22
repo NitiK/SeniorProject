@@ -223,7 +223,7 @@ public class PlayerShooting : MonoBehaviour
                 enemyHealth.TakeDamage (damagePerShot, shootHit.point);
 				Debug.Log ("Done");
             }*/
-            gunLine.SetPosition (1, shootHit.point);
+			gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
         }
         else
         {
