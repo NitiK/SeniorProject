@@ -17,8 +17,12 @@ public class PlayerShooting : MonoBehaviour
     private Color bulletButtonColor2;
 
     public Text bulletText;
+	public Text magazineText;
     public Button bulletButton;
-	public int bullet;
+	private int bullet;
+	private int magazine;
+	private int maxBullet;
+	private int maxMagazine;
 
 	GameObject myweapon;
 	bool weaponArea;
@@ -62,13 +66,14 @@ public class PlayerShooting : MonoBehaviour
     void Update ()
     {
         timer += Time.deltaTime;
+		this.bulletText.text = this.bullet + " / " + this.maxBullet;
+		this.magazineText.text = this.magazine + " / " + this.maxMagazine;
 	
 
 		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 		{
 			if (this.bullet > 0) {
 				this.bullet -= 1;
-				this.bulletText.text = this.bullet + " / 10";
 				Shoot ();
 			}
             if (this.bullet == 3)
@@ -130,6 +135,10 @@ public class PlayerShooting : MonoBehaviour
 			if(t.tag == "Weapon")// Do something to child one
 			{
 				this.activeWeapon = t.gameObject;
+				this.bullet = this.activeWeapon.GetComponent<Weapon> ().GetBullet ();
+				this.maxBullet = this.bullet;
+				this.magazine = this.activeWeapon.GetComponent<Weapon> ().GetMagazine ();
+				this.maxMagazine = this.magazine;
 				foreach (Transform tchild in t)
 				{
 					if(tchild.tag == "Weapon_Top")// Do something to child one
@@ -147,21 +156,24 @@ public class PlayerShooting : MonoBehaviour
 	}
 
 	public void reBullet(){
-		anime.Play ("Reload");
-		Debug.Log ("Reload");
-		this.canShoot = false;
-		Invoke ("reLoad", 1.8f);
-		Invoke ("delayReload", 1.8f);
+		if (this.magazine > 0) {
+			this.magazine -= 1;
+			anime.Play ("Reload");
+			Debug.Log ("Reload");
+			this.canShoot = false;
+			Invoke ("reLoad", 1.8f);
+			Invoke ("delayReload", 1.8f);
+		}
 	}
 
 	void reLoad(){
-		this.bullet = 10;
-		this.bulletText.text = this.bullet + " / 10";
-		CancelInvoke("blinkBulletButton");
+			this.bullet = this.maxBullet;
+			//this.bulletText.text = this.bullet + " / "+this.maxBullet;
+			CancelInvoke("blinkBulletButton");
 
-		ColorBlock colorBlock = bulletButton.colors;
-		colorBlock.normalColor = bulletButtonColor1;
-		bulletButton.colors = colorBlock;
+			ColorBlock colorBlock = bulletButton.colors;
+			colorBlock.normalColor = bulletButtonColor1;
+			bulletButton.colors = colorBlock;
 	}
 
 	void delayReload(){
