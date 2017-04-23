@@ -74,11 +74,12 @@ public class CamFeed : MonoBehaviour {
 				string returnData = Encoding.ASCII.GetString (receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson> (returnData);
 				Seq.text = temp.header.seq + "";
-				Debug.Log (temp.header.seq);
+//				Debug.Log (temp.header.seq);
 				oldPosition = newPosition;
-				newPosition = new Vector3 (temp.pose.position.x * 10f, temp.pose.position.y * 10f, temp.pose.position.z * 10f);
+				newPosition = new Vector3 (temp.pose.position.x * 5f, temp.pose.position.y * 5f, temp.pose.position.z * 5f);
 				runner = 0f;
 				TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
+//				transform.parent.transform.position = newPosition;
 				runner += 0.33f;
 				//TranslatePosition (new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f));
 //				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
@@ -90,32 +91,26 @@ public class CamFeed : MonoBehaviour {
 			}
 			asyncResult = udpClient.BeginReceive (null, null);
 		} else if (runner <= 0.8F){
-			Debug.Log ("---- " + runner);
+//			Debug.Log ("---- " + runner);
 			TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
+//			transform.parent.transform.position = newPosition;
 			runner += 0.33f;
 		
 		}
 	}
 
 	void TranslatePosition(Vector3 input){
-		transform.parent.transform.position = input;
-		Vector3 pos = transform.parent.transform.position;
-		Vector3 center = Map.transform.position; 
 
-		Quaternion rot = Quaternion.AngleAxis(Map.transform.eulerAngles.y,Vector3.up); // get the desired rotation
+		Vector3 pos = input;		
+		Vector3 center = Vector3.zero; 
+
+		Quaternion rotY = Quaternion.AngleAxis (Map.transform.eulerAngles.y, Vector3.up); // get the desired rotation
+		Quaternion rotZ = Quaternion.AngleAxis(Map.transform.eulerAngles.z,Vector3.forward);
+		Quaternion rotX = Quaternion.AngleAxis (Map.transform.eulerAngles.x, Vector3.right);
 		Vector3 dir = pos - center; // find current direction relative to center
-		dir = rot * dir; // rotate the direction
-		transform.parent.transform.position = center + dir; // define new position
+		dir = rotX*rotY*rotZ* dir; // rotate the direction
+		transform.parent.position = center + dir; // define new position
 
-		rot = Quaternion.AngleAxis(Map.transform.eulerAngles.z,Vector3.forward); // get the desired rotation
-		dir = pos - center; // find current direction relative to center
-		dir = rot * dir; // rotate the direction
-		transform.parent.transform.position = center + dir; // define new position
-
-		rot = Quaternion.AngleAxis(Map.transform.eulerAngles.x,Vector3.right); // get the desired rotation
-		dir = pos - center; // find current direction relative to center
-		dir = rot * dir; // rotate the direction
-		transform.parent.transform.position = center + dir; // define new position
 
 	}
 
