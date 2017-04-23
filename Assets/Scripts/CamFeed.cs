@@ -76,7 +76,7 @@ public class CamFeed : MonoBehaviour {
 				Seq.text = temp.header.seq + "";
 				Debug.Log (temp.header.seq);
 				oldPosition = newPosition;
-				newPosition = new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f);
+				newPosition = new Vector3 (temp.pose.position.x * 10f, temp.pose.position.y * 10f, temp.pose.position.z * 10f);
 				runner = 0f;
 				TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
 				runner += 0.33f;
