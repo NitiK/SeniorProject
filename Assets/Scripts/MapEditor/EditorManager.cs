@@ -10,7 +10,7 @@ public class EditorManager : MonoBehaviour {
 	bool foundObject;
 	RaycastHit hit;
 	float nextStage;
-	float delay=1.0f;
+	float delay=0.5f;
     private bool isTrack;
 
 	// Use this for initialization
@@ -46,7 +46,7 @@ public class EditorManager : MonoBehaviour {
 //		}
 		if (Time.time > nextStage && isTrack) {
 			nextStage = Time.time + delay;
-			GameObject sphere = Instantiate (Sphere, transform.position, Quaternion.identity);
+			GameObject sphere = Instantiate (Sphere, transform.GetChild(0).position, Quaternion.identity);
 			sphere.transform.parent = GameObject.Find ("Collection").transform;
 		}
 			
