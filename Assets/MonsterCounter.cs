@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MonsterCounter : MonoBehaviour {
 
-    public int maxMonster;
+	public Spawner spawner;
     public int killedMonster;
     public Text monsterCounterText;
 	private bool clear;
@@ -30,12 +30,12 @@ public class MonsterCounter : MonoBehaviour {
     {
         get
         {
-            return maxMonster;
+			return spawner.TotalSpawn;
         }
 
         set
         {
-            maxMonster = value;
+			spawner.TotalSpawn = value;
         }
     }
 
@@ -48,8 +48,8 @@ public class MonsterCounter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        monsterCounterText.text = string.Format("Left {0} / {1}   ", killedMonster, maxMonster);
-		if ((killedMonster == maxMonster) && !this.clear) {
+		monsterCounterText.text = string.Format("Left {0} / {1}   ", killedMonster, spawner.TotalSpawn);
+		if ((killedMonster == spawner.TotalSpawn) && !this.clear) {
 			Invoke ("ToBeContinue", 5f);
 			this.clear = true;
 		}

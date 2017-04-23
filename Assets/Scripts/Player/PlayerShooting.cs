@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class PlayerShooting : MonoBehaviour
 {
     public int damagePerShot = 20;
-    public float timeBetweenBullets = 0.15f;
     public float range = 100f;
 	private bool canShoot;
 	public Text pickButtonText;
@@ -24,6 +23,7 @@ public class PlayerShooting : MonoBehaviour
 	private int maxBullet;
 	private int maxMagazine;
 
+	float timeBetweenBullets;
 	GameObject myweapon;
 	bool weaponArea;
 	GameObject weapon;
@@ -71,7 +71,8 @@ public class PlayerShooting : MonoBehaviour
 	
 
 		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
-		{
+		{	
+			
 			if (this.bullet > 0) {
 				this.bullet -= 1;
 				Shoot ();
@@ -135,9 +136,12 @@ public class PlayerShooting : MonoBehaviour
 			if(t.tag == "Weapon")// Do something to child one
 			{
 				this.activeWeapon = t.gameObject;
+
+				Debug.Log (t.name);
 				this.bullet = this.activeWeapon.GetComponent<Weapon> ().GetBullet ();
 				this.maxBullet = this.bullet;
 				this.magazine = this.activeWeapon.GetComponent<Weapon> ().GetMagazine ();
+				this.timeBetweenBullets = this.activeWeapon.GetComponent<Weapon> ().GetTimeBetweenBullet();
 				this.maxMagazine = this.magazine;
 				foreach (Transform tchild in t)
 				{
@@ -195,7 +199,7 @@ public class PlayerShooting : MonoBehaviour
 			//print (this.weapon.transform.eulerAngles + " : " + this.activeWeapon.transform.eulerAngles);
 			this.weapon.transform.eulerAngles = this.activeWeapon.transform.eulerAngles;
 			//print (this.weapon.transform.eulerAngles);
-			this.weapon.transform.localScale = this.activeWeapon.transform.localScale;
+			this.weapon.transform.localScale = this.weapon.transform.localScale/2;
 			//print (this.weapon.transform.rotation);
 			Destroy (this.weapon.transform.GetComponent<Rigidbody>());
 			Destroy (this.weapon.transform.GetComponent<BoxCollider>());

@@ -23,12 +23,14 @@ public class CamFeed : MonoBehaviour {
 	public Vector3 newPosition;
 	private float runner; 
 	private bool udpIsclose;
+	GameObject Map;
 
 
 	void Awake () {
         Debug.Log ("Start Braa!!!");
 		oldPosition = Vector3.zero ;
 		newPosition = Vector3.zero ;
+		Map = GameObject.FindGameObjectWithTag ("Map");
 		runner = 1f;
 
 //        var deviceName = WebCamTexture.devices[0].name;
@@ -74,7 +76,7 @@ public class CamFeed : MonoBehaviour {
 				Seq.text = temp.header.seq + "";
 				Debug.Log (temp.header.seq);
 				oldPosition = newPosition;
-				newPosition = new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f);
+				newPosition = new Vector3 (temp.pose.position.x * 10f, temp.pose.position.y * 10f, temp.pose.position.z * 10f);
 				runner = 0f;
 				TranslatePosition(Vector3.Lerp(oldPosition, newPosition, runner));
 				runner += 0.33f;
@@ -98,12 +100,19 @@ public class CamFeed : MonoBehaviour {
 	void TranslatePosition(Vector3 input){
 		transform.parent.transform.position = input;
 		Vector3 pos = transform.parent.transform.position;
-		Vector3 center = new Vector3 (0f,3.8f, 2f); 
-		Quaternion rot = Quaternion.AngleAxis(-1.16f,Vector3.up); // get the desired rotation
+		Vector3 center = Map.transform.position; 
+
+		Quaternion rot = Quaternion.AngleAxis(Map.transform.eulerAngles.y,Vector3.up); // get the desired rotation
 		Vector3 dir = pos - center; // find current direction relative to center
 		dir = rot * dir; // rotate the direction
 		transform.parent.transform.position = center + dir; // define new position
-		rot = Quaternion.AngleAxis(-9.67f,Vector3.forward); // get the desired rotation
+
+		rot = Quaternion.AngleAxis(Map.transform.eulerAngles.z,Vector3.forward); // get the desired rotation
+		dir = pos - center; // find current direction relative to center
+		dir = rot * dir; // rotate the direction
+		transform.parent.transform.position = center + dir; // define new position
+
+		rot = Quaternion.AngleAxis(Map.transform.eulerAngles.x,Vector3.right); // get the desired rotation
 		dir = pos - center; // find current direction relative to center
 		dir = rot * dir; // rotate the direction
 		transform.parent.transform.position = center + dir; // define new position
