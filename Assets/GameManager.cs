@@ -23,6 +23,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void LoadAnotherLevel(){
-		Application.LoadLevel("Gun");
+		Application.LoadLevel("Gun_502");
 	}
 }
