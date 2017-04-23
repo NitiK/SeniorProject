@@ -187,6 +187,7 @@ public class Enemy : MonoBehaviour {
 	}
 	void AfterSpawn (){
 		Debug.Log ("After Spawn");
+		GetComponent<Collider> ().enabled = true;
 		state = portal;
 		agent.enabled = true;
 	}

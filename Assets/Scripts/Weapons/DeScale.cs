@@ -6,6 +6,7 @@ public class DeScale : MonoBehaviour,Weapon {
 
 	public int bullet;
 	public int magazine;
+	public float timeBetweenBullet;
 
 	void Awake ()
 	{
@@ -23,5 +24,8 @@ public class DeScale : MonoBehaviour,Weapon {
 
 	public int GetMagazine(){
 		return this.magazine;
+	}
+	public float GetTimeBetweenBullet(){
+		return this.timeBetweenBullet;
 	}
 }
