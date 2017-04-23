@@ -5,14 +5,19 @@ using UnityEngine.UI;
 
 public class FireButtonController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+	public static bool mouseDown;
+	public PlayerShooting player;
+	 
+	void Update(){
+		if (mouseDown) {
+			player.weaponShoot ();
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public void PointerDown(){
+		mouseDown = true;
+	}
+	public void PointerUp(){
+		mouseDown = false;
 	}
 		
 		
