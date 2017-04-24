@@ -8,9 +8,10 @@ public class FireButtonController : MonoBehaviour {
 	public static bool mouseDown;
 	public PlayerShooting player;
 	 
-	void Update(){
+	void FixedUpdate(){
 		if (mouseDown) {
 			player.weaponShoot ();
+			Debug.Log (Time.time);
 		}
 	}
 	public void PointerDown(){

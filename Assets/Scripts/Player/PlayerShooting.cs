@@ -83,19 +83,19 @@ public class PlayerShooting : MonoBehaviour
             }
 		}*/
 
-		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
-		{
-			this.clickShoot = false;
-			if (this.bullet > 0) {
-				this.bullet -= 1;
-				this.bulletText.text = this.bullet + " / 10"; 
-				Shoot ();
-			}
-			if (this.bullet == 3)
-			{
-				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
-			}
-		}
+//		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+//		{
+//			this.clickShoot = false;
+//			if (this.bullet > 0) {
+//				this.bullet -= 1;
+//				this.bulletText.text = this.bullet + " / 10"; 
+//				Shoot ();
+//			}
+//			if (this.bullet == 3)
+//			{
+//				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+//			}
+//		}
 
 		if (Input.GetKeyDown ("e")) {
 			//print (this.weaponArea);
@@ -187,6 +187,19 @@ public class PlayerShooting : MonoBehaviour
 	public void weaponShoot(){
 		print ("fire button click!!");
 		this.clickShoot = true;
+		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+		{
+			this.clickShoot = false;
+			if (this.bullet > 0) {
+				this.bullet -= 1;
+				this.bulletText.text = this.bullet + " / 10"; 
+				Shoot ();
+			}
+			if (this.bullet == 3)
+			{
+				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+			}
+		}
 	}
 
 	public void pickWeapon(){
@@ -295,4 +308,5 @@ public class PlayerShooting : MonoBehaviour
 	void OutOfBullet(){
 		anime.Play ("OutOfBullet");
 	}
+
 }
