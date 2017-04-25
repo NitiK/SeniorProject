@@ -153,7 +153,6 @@ public class Enemy : MonoBehaviour {
 //		Debug.Log ("Zombie Attack!!");
 		anime.Play("atack02");
 		agent.Stop();
-		Invoke ("applyDamage",0.4f);
 		Invoke ("Reset", attackInterval);
 		state = attacklaow;
 	}

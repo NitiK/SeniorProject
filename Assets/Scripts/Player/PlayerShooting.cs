@@ -35,7 +35,7 @@ public class PlayerShooting : MonoBehaviour
     int shootableMask;
     ParticleSystem gunParticles;
     LineRenderer gunLine;
-    AudioSource gunAudio;
+//    AudioSource gunAudio;
     Light gunLight;
     float effectsDisplayTime = 0.2f;
 	private bool clickShoot;
@@ -46,7 +46,7 @@ public class PlayerShooting : MonoBehaviour
 		shootableMask = 1 << LayerMask.NameToLayer ("Shootable");
         gunParticles = GetComponent<ParticleSystem> ();
         gunLine = GetComponent <LineRenderer> ();
-        gunAudio = GetComponent<AudioSource> ();
+//        gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
 		anime = GetComponentInChildren<Animator> ();
 
@@ -69,8 +69,8 @@ public class PlayerShooting : MonoBehaviour
 		this.bulletText.text = this.bullet + " / " + this.maxBullet;
 		this.magazineText.text = this.magazine + " / " + this.maxMagazine;
 		
-
-		/*if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+		#if UNITY_EDITOR
+		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 		{	
 			
 			if (this.bullet > 0) {
@@ -81,8 +81,8 @@ public class PlayerShooting : MonoBehaviour
             {
                 InvokeRepeating("blinkBulletButton", 0f, 0.1f);
             }
-		}*/
-
+		}
+		#endif
 //		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 //		{
 //			this.clickShoot = false;
@@ -194,6 +194,8 @@ public class PlayerShooting : MonoBehaviour
 				this.bullet -= 1;
 				this.bulletText.text = this.bullet + " / 10"; 
 				Shoot ();
+			} else {
+				anime.Play ("OutOfBullet");
 			}
 			if (this.bullet == 3)
 			{
@@ -229,7 +231,7 @@ public class PlayerShooting : MonoBehaviour
 //		print ("shoot");
         timer = 0f;
 
-        gunAudio.Play ();
+//        gunAudio.Play ();
 
         gunLight.enabled = true;
 
@@ -306,7 +308,7 @@ public class PlayerShooting : MonoBehaviour
         bulletButton.colors = colorBlock;
     }
 	void OutOfBullet(){
-		anime.Play ("OutOfBullet");
+		anime.Play ("OutOfBulletidle");
 	}
 
 }
