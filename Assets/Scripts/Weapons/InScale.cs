@@ -15,7 +15,7 @@ public class InScale : MonoBehaviour,Weapon {
 
 	public void Hit(GameObject target, Vector3 point){
 		Debug.Log ("InScale Hit");
-		target.transform.localScale = target.transform.localScale * 1.05f;
+		target.transform.localScale = target.transform.localScale * 1.2f;
 	}
 
 	public int GetBullet(){

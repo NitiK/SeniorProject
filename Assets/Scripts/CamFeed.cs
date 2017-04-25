@@ -95,6 +95,13 @@ public class CamFeed : MonoBehaviour {
 //		Seq.text = round.x+ ","+round.y+ ","+round.z + "";
 ////	
 //		Debug.Log(asyncResult.IsCompleted);
+		if (asyncResult.IsCompleted) {
+			Seq.text = "Status : Connected";
+			Seq.color = Color.green;
+		} else {
+			Seq.text = "Status : Disconnected";
+			Seq.color = Color.red;
+		}
 		if (asyncResult.IsCompleted && runner>= 0.8f) {
 			Debug.Log ("Received!!");
 			try {	

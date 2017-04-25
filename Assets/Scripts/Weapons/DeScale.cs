@@ -15,7 +15,7 @@ public class DeScale : MonoBehaviour,Weapon {
 
 	public void Hit(GameObject target, Vector3 point){
 		Debug.Log ("DeScale Hit");
-		target.transform.localScale = target.transform.localScale * 0.95f;
+		target.transform.localScale = target.transform.localScale * 0.8f;
 	}
 
 	public int GetBullet(){
