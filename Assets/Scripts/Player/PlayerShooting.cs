@@ -69,8 +69,8 @@ public class PlayerShooting : MonoBehaviour
 		this.bulletText.text = this.bullet + " / " + this.maxBullet;
 		this.magazineText.text = this.magazine + " / " + this.maxMagazine;
 		
-
-		/*if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+		#if UNITY_EDITOR
+		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 		{	
 			
 			if (this.bullet > 0) {
@@ -81,8 +81,8 @@ public class PlayerShooting : MonoBehaviour
             {
                 InvokeRepeating("blinkBulletButton", 0f, 0.1f);
             }
-		}*/
-
+		}
+		#endif
 //		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
 //		{
 //			this.clickShoot = false;

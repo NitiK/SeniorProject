@@ -6,6 +6,7 @@ using System;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 
 public class CamFeed : MonoBehaviour {
@@ -26,11 +27,15 @@ public class CamFeed : MonoBehaviour {
 	float Xmultiplier,Ymultiplier,Zmultiplier;
 	GameObject Map;
 	Vector3 dir,last;
+	Thread readThread;
 
 
 
 	void Awake () {
         Debug.Log ("Start Braa!!!");
+//		readThread = new Thread(new ThreadStart(ReceiveData));
+//		readThread.IsBackground = true;
+//		readThread.Start();
 		oldPosition = Vector3.zero ;
 		newPosition = Vector3.zero ;
 		Map = GameObject.FindGameObjectWithTag ("Map");
@@ -88,18 +93,24 @@ public class CamFeed : MonoBehaviour {
 //			transform.parent.position += round*2000f;
 //		}
 //		Seq.text = round.x+ ","+round.y+ ","+round.z + "";
-////
+////	
+		Debug.Log(asyncResult.IsCompleted);
 		if (asyncResult.IsCompleted && runner>= 0.8f) {
 			Debug.Log ("Received!!");
 			try {	
+				
 				IPEndPoint remoteEP = null;
-				byte[] receivedData = udpClient.EndReceive (asyncResult, ref remoteEP);
+				byte[] receivedData = udpClient.EndReceive(asyncResult, ref remoteEP);
+				while(udpClient.Available!=0){
+					receivedData = udpClient.Receive(ref remoteEP);
+				}
 				string returnData = Encoding.ASCII.GetString (receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson> (returnData);
+				Debug.Log("Aval : "+udpClient.Available);
 				Seq.text = temp.header.seq + "";
 //				Debug.Log (temp.header.seq);
 				oldPosition = newPosition;
-				newPosition = new Vector3 (temp.pose.position.x * 5f, temp.pose.position.y * 5f, temp.pose.position.z * 5f);
+				newPosition = new Vector3 (temp.pose.position.x * 20f, temp.pose.position.y * 20f, temp.pose.position.z * 20f);
 				runner = 0f;
 //				if(oldPosition==newPosition){
 //					if(dir.sqrMagnitude>0.1f){
@@ -123,9 +134,10 @@ public class CamFeed : MonoBehaviour {
 				//TranslatePosition (new Vector3 (temp.pose.position.x * 100f, temp.pose.position.y * 100f, temp.pose.position.z * 100f));
 //				transform.parent.transform.position = new Vector3(temp.pose.position.x*100f,temp.pose.position.y*100f,temp.pose.position.z*100f);
 //				transform.rotation = new Quaternion(temp.pose.orientation.x,temp.pose.orientation.y,temp.pose.orientation.z,temp.pose.orientation.w);
-
+//				Debug.Log("End set 0 Naja");
 				// EndReceive worked and we have received data and remote endpoint
 			} catch (Exception e) {
+//				Debug.LogError ("Error naja!!");
 				// EndReceive failed and we ended up here
 			}
 			asyncResult = udpClient.BeginReceive (null, null);
@@ -136,6 +148,7 @@ public class CamFeed : MonoBehaviour {
 			runner += 0.33f;
 		
 		}
+//		Debug.Log ("Runner : "+runner);
 	}
 
 	void TranslatePosition(Vector3 input){

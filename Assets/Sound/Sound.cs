@@ -9,19 +9,7 @@ public class Sound : MonoBehaviour {
 	void Start () { 
 		audio = GetComponent<AudioSource> ();
 	}//put this in start. This gets the audio source. }
-	public void PlaySound0(){
-		audio.PlayOneShot (audioClip [0], 1);
-	}
-	public void PlaySound1(){
-		audio.PlayOneShot (audioClip [1], 1);
-	}
-	public void PlaySound2(){
-		audio.PlayOneShot (audioClip [2], 1);
-	}
-	public void PlaySound3(){
-		audio.PlayOneShot (audioClip [3], 1);
-	}
-	public void PlaySound4(){
-		audio.PlayOneShot (audioClip [4], 1);
+	public void PlaySound(int i){
+		audio.PlayOneShot (audioClip [i], 1);
 	}
 }
