@@ -44,7 +44,7 @@ public class Spawner : MonoBehaviour {
 			isZombieSpawning = false;
 			closeWarningText ();
 			int ran = Random.Range (0, ground.transform.childCount - 1);
-			GameObject.Instantiate (zombie, ground.transform.GetChild (ran).position+new Vector3(0f,-2.2f,0f), ground.transform.GetChild (ran).rotation);
+			GameObject.Instantiate (zombie, ground.transform.GetChild (ran).position+new Vector3(0f,2.5f,0f), Quaternion.Euler(0f,0f,0f));
 			count++;
 			timer -= delay;
 			isZombieSpawning = true;
