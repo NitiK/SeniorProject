@@ -284,7 +284,9 @@ public class PlayerShooting : MonoBehaviour
 			this.weaponArea = true;
 			this.weapon = other.gameObject;
             this.pickButton.interactable = true;
-            InvokeRepeating("blinkPickButton", 0f, 0.1f);
+            if (!IsInvoking()) {
+                InvokeRepeating("blinkPickButton", 0f, 0.1f);
+            }
             //this.pickButtonText.text = "Weapon";
         } 
 	}
