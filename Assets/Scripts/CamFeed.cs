@@ -94,7 +94,7 @@ public class CamFeed : MonoBehaviour {
 //		}
 //		Seq.text = round.x+ ","+round.y+ ","+round.z + "";
 ////	
-		Debug.Log(asyncResult.IsCompleted);
+//		Debug.Log(asyncResult.IsCompleted);
 		if (asyncResult.IsCompleted && runner>= 0.8f) {
 			Debug.Log ("Received!!");
 			try {	
@@ -106,7 +106,7 @@ public class CamFeed : MonoBehaviour {
 				}
 				string returnData = Encoding.ASCII.GetString (receivedData);
 				UDPJson temp = JsonUtility.FromJson<UDPJson> (returnData);
-				Debug.Log("Aval : "+udpClient.Available);
+//				Debug.Log("Aval : "+udpClient.Available);
 				Seq.text = temp.header.seq + "";
 //				Debug.Log (temp.header.seq);
 				oldPosition = newPosition;
@@ -161,7 +161,7 @@ public class CamFeed : MonoBehaviour {
 		Quaternion rotX = Quaternion.AngleAxis (Map.transform.eulerAngles.x, Vector3.right);
 		Vector3 dir = pos - center; // find current direction relative to center
 		dir = rotX*rotY*rotZ* dir; // rotate the direction
-		transform.parent.position = center + dir; // define new position
+		transform.parent.position = new Vector3((center + dir).x,-(center + dir).y/3f,(center + dir).z); // define new position
 
 
 	}
