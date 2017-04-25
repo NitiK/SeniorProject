@@ -22,6 +22,7 @@ public class PlayerShooting : MonoBehaviour
 	private int magazine;
 	private int maxBullet;
 	private int maxMagazine;
+	private bool isGameOver;
 
 	float timeBetweenBullets;
 	GameObject myweapon;
@@ -59,69 +60,78 @@ public class PlayerShooting : MonoBehaviour
 		this.canShoot = true;
         this.weaponArea = false;
 		this.clickShoot = false;
+		this.isGameOver = false;
 		setMyweapon ();
     }
 
 
     void Update ()
     {
-        timer += Time.deltaTime;
-		this.bulletText.text = this.bullet + " / " + this.maxBullet;
-		this.magazineText.text = this.magazine + " / " + this.maxMagazine;
-		
-		#if UNITY_EDITOR
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
-		{	
-			
-			if (this.bullet > 0) {
-				this.bullet -= 1;
-				Shoot ();
+		if (!isGameOver) {
+			timer += Time.deltaTime;
+			this.bulletText.text = this.bullet + " / " + this.maxBullet;
+			this.magazineText.text = this.magazine + " / " + this.maxMagazine;
+
+			#if UNITY_EDITOR
+			if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+			{	
+
+				if (this.bullet > 0) {
+					this.bullet -= 1;
+					Shoot ();
+				}
+				if (this.bullet == 3)
+				{
+					InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+				}
 			}
-            if (this.bullet == 3)
-            {
-                InvokeRepeating("blinkBulletButton", 0f, 0.1f);
-            }
-		}
-		#endif
-//		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
-//		{
-//			this.clickShoot = false;
-//			if (this.bullet > 0) {
-//				this.bullet -= 1;
-//				this.bulletText.text = this.bullet + " / 10"; 
-//				Shoot ();
-//			}
-//			if (this.bullet == 3)
-//			{
-//				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
-//			}
-//		}
+			#endif
+			//		if(this.clickShoot && timer >= timeBetweenBullets && Time.timeScale != 0 && this.canShoot)
+			//		{
+			//			this.clickShoot = false;
+			//			if (this.bullet > 0) {
+			//				this.bullet -= 1;
+			//				this.bulletText.text = this.bullet + " / 10"; 
+			//				Shoot ();
+			//			}
+			//			if (this.bullet == 3)
+			//			{
+			//				InvokeRepeating("blinkBulletButton", 0f, 0.1f);
+			//			}
+			//		}
 
-		if (Input.GetKeyDown ("e")) {
-			//print (this.weaponArea);
-			pickWeapon();
-		}
-		if (Input.GetKeyDown ("r")) {
-			//print (this.weaponArea);
-			reBullet();
-//			this.bullet = 10;
-//			this.bulletText.text = this.bullet + " / 10";
-//            CancelInvoke("blinkBulletButton");
-        }
-		//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
-		//{
-		//	if (this.bullet > 0) {
-		//		this.bullet -= 1;
-		//		this.bulletText.text = this.bullet + " / 10";
-		//		Shoot ();
-		//	}
-		//}
+			if (Input.GetKeyDown ("e")) {
+				//print (this.weaponArea);
+				pickWeapon();
+			}
+			if (Input.GetKeyDown ("r")) {
+				//print (this.weaponArea);
+				reBullet();
+				//			this.bullet = 10;
+				//			this.bulletText.text = this.bullet + " / 10";
+				//            CancelInvoke("blinkBulletButton");
+			}
+			//if(Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary) && timer >= timeBetweenBullets && Time.timeScale != 0)
+			//{
+			//	if (this.bullet > 0) {
+			//		this.bullet -= 1;
+			//		this.bulletText.text = this.bullet + " / 10";
+			//		Shoot ();
+			//	}
+			//}
 
-        if(timer >= timeBetweenBullets * effectsDisplayTime)
-        {
-            DisableEffects ();
-        }
+			if(timer >= timeBetweenBullets * effectsDisplayTime)
+			{
+				DisableEffects ();
+			}
+		}
+			
+        
     }
+
+	public void GameOver(){
+		this.isGameOver = true;
+	}
 
 
     public void DisableEffects ()

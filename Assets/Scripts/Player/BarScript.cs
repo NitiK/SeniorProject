@@ -26,6 +26,7 @@ public class BarScript : MonoBehaviour {
 		if (fillAmount == 0 && !gameOver) {
 			gameOver = true;
 			//float fadeTime = GameObject.Find ("GameManager").GetComponent<Fading> ().BeginFade (1);
+			this.playerCamera.GetComponent<PlayerShooting> ().GameOver ();
 			gameOverImage.GetComponent<ButtonMenu> ().GameOver ();
 			Invoke ("FadetoMenu", 5f);
 		}
